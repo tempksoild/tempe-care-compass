@@ -18,6 +18,8 @@ tempe-care-compass/
 ├── app.py                  # Streamlit UI entry point — run with: streamlit run app.py
 ├── agent.py                # AI chatbot logic (Ollama + Cortex backends, intent parsing, grounded responses)
 ├── repository.py           # Data access layer (Demo CSV + Snowflake SQL for providers and prices)
+├── geocoding.py            # Address-to-coordinate geocoding service (Mapbox + Nominatim + Tempe centroids)
+├── style.css               # Modern high-contrast UI stylesheet
 ├── .env.example            # Environment variable template (copy to .env and fill in credentials)
 ├── data/
 │   ├── tempe_nppes_demo.csv    # 280-row NPPES provider snapshot for demo mode
@@ -43,7 +45,7 @@ tempe-care-compass/
 **`app.py`** — Main Streamlit application. Renders a 3-tab layout:
 1. **Provider Directory** — search and browse provider cards with Google Maps links
 2. **Price Comparison** — side-by-side hospital pricing for common procedures
-3. **AI Care Guide** — chatbot that answers provider and pricing questions
+3. **AI Care Guide** — chatbot that recommends the single most relevant provider and renders a pinpoint map via `st.map`
 
 Execution: `streamlit run app.py`
 

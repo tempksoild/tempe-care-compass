@@ -53,6 +53,22 @@ class CareAgent:
         except Exception:
             return "Possible directory leads: " + ", ".join(r.get("name","Unnamed provider") for r in rows[:3]) + ". Call each location to verify price, eligibility, hours, and whether it accepts new patients."
 
+    def explain_one(self, question, provider):
+        if not provider:
+            return "No matching directory records were found. Broaden your search or call 211 for resource navigation."
+        evidence = {k: provider.get(k, "") for k in ("name", "category", "specialty", "address", "city", "state", "zip", "phone", "affordability", "last_updated")}
+        prompt = (
+            f"Question: {question}\n"
+            f"Selected most relevant provider: {json.dumps(evidence)}\n"
+            "Explain clearly why this single provider is the most relevant choice for the user's inquiry based on their specialty, location, and care type. "
+            "Do not diagnose or claim a provider is free unless explicitly verified. "
+            "Remind the user to call ahead to confirm price, accepted insurance, hours, and new-patient availability. Under 140 words."
+        )
+        try:
+            return self.chat([{"role": "system", "content": "You are a cautious healthcare-navigation assistant, not a clinician."}, {"role": "user", "content": prompt}])
+        except Exception:
+            return _fallback_explain_one(question, provider)
+
     def explain_prices(self, question, price_rows, provider_rows=None):
         if not price_rows: return "No price data found for that procedure. Hospital pricing data is limited to the Healthparse sample."
         evidence = [{k: r.get(k, "") for k in ("billing_code_description", "payer_name", "rate_type", "rate_amount", "ccn")} for r in price_rows[:8]]
@@ -100,6 +116,23 @@ class CortexAgent:
             return self._complete(prompt)
         except Exception:
             return "Possible directory leads: " + ", ".join(r.get("name", "Unnamed provider") for r in rows[:3]) + ". Call each location to verify price, eligibility, hours, and whether it accepts new patients."
+
+    def explain_one(self, question, provider):
+        if not provider:
+            return "No matching directory records were found. Broaden your search or call 211 for resource navigation."
+        evidence = {k: provider.get(k, "") for k in ("name", "category", "specialty", "address", "city", "state", "zip", "phone", "affordability", "last_updated")}
+        prompt = (
+            "You are a cautious healthcare-navigation assistant, not a clinician.\n\n"
+            f"Question: {question}\n"
+            f"Selected most relevant provider: {json.dumps(evidence)}\n"
+            "Explain clearly why this single provider is the most relevant choice for the user's inquiry based on their specialty, location, and care type. "
+            "Do not diagnose or claim a provider is free unless explicitly verified. "
+            "Remind the user to call ahead to confirm price, accepted insurance, hours, and new-patient availability. Under 140 words."
+        )
+        try:
+            return self._complete(prompt)
+        except Exception:
+            return _fallback_explain_one(question, provider)
 
     def explain_prices(self, question, price_rows, provider_rows=None):
         if not price_rows: return "No price data found for that procedure. Hospital pricing data is limited to the Healthparse sample."
@@ -153,3 +186,72 @@ def _fallback_parse(text):
         price_query=price_query,
         procedure=procedure,
     )
+
+
+def _fallback_explain_one(question: str, provider: dict) -> str:
+    if not provider:
+        return "No matching directory records were found. Broaden your search or call 211 for resource navigation."
+    name = provider.get("name", "Unnamed Provider")
+    specialty = provider.get("specialty", "general care")
+    category = provider.get("category", "Care")
+    addr = provider.get("address", "Tempe, AZ")
+    phone = provider.get("phone") or "their office"
+    aff = provider.get("affordability", "Not stated in NPPES — call to verify")
+    return (
+        f"The most relevant choice for your inquiry is **{name}** ({category} &middot; {specialty}), located at {addr}. "
+        f"Affordability status: {aff}. "
+        f"Please call {phone} prior to visiting to confirm pricing, accepted coverage, operating hours, and new-patient availability."
+    )
+
+
+def select_best_provider(question: str, providers: list[dict], intent: CareIntent | None = None) -> dict | None:
+    """Ranks candidate providers against the user's question and intent to return the single best match."""
+    if not providers:
+        return None
+
+    q_lower = question.lower()
+    stop_words = {
+        "need", "near", "find", "looking", "cost", "much", "care", "where", "what",
+        "please", "help", "want", "some", "good", "best", "give", "show", "tell",
+        "with", "from", "that", "this", "have", "there", "they"
+    }
+    keywords = set(re.findall(r"\b[a-zA-Z]{3,}\b", q_lower)) - stop_words
+
+    scored = []
+    for p in providers:
+        score = 0
+        p_name = p.get("name", "").lower()
+        p_spec = p.get("specialty", "").lower()
+        p_cat = p.get("category", "")
+        p_zip = str(p.get("zip", ""))
+
+        # Category alignment
+        if intent and intent.category != "All" and p_cat.lower() == intent.category.lower():
+            score += 25
+
+        # ZIP alignment
+        if intent and intent.zip_code and p_zip.startswith(intent.zip_code.strip()):
+            score += 35
+        else:
+            for z in re.findall(r"\b85\d{3}\b", q_lower):
+                if z in p_zip:
+                    score += 35
+                    break
+
+        # Keyword matches in name or specialty
+        for kw in keywords:
+            if kw in p_name:
+                score += 10
+            if kw in p_spec:
+                score += 14
+
+        # Affordability bonus for verified programs
+        aff = p.get("affordability", "").lower()
+        if "verified" in aff or "sliding" in aff or "charity" in aff:
+            score += 8
+
+        scored.append((score, p))
+
+    scored.sort(key=lambda x: x[0], reverse=True)
+    return scored[0][1] if scored else providers[0]
+
