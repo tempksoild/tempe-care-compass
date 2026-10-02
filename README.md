@@ -192,10 +192,73 @@ Select **Snowflake** as data source and **Cortex** as AI backend in the sidebar.
 - **Hospital pricing is a sample.** The Healthparse listing covers ~47 California hospitals and 3 CPT codes. Full national coverage requires the paid listing.
 - **Cortex AI is optional.** The app works without any AI backend using deterministic keyword matching and fallback responses.
 
+## AI search (RAG system)
+
+### Problem statement
+> The AI search: if they say an address or location, or words like fever, symptoms, broke arm, sick or another condition, the LLM should read the whole request, then do a custom RAG search and provide the location.
+
+### How we solved it
+- **Detect the request type.** `rag/understand.py` checks for symptom/condition words (fever, sick, broke, sprain, rash, body parts) and location words (address, near, street, ASU, "I'm at").
+- **Safety first.** A deterministic emergency check runs before any LLM call. Chest pain, trouble breathing, overdose or self-harm return a 911/988 message immediately.
+- **LLM reads the whole request.** Cortex (Messages API) or Ollama returns a structured `QueryPlan`: care type, category, ordered NPPES specialty terms, urgency, address/landmark text, ZIP and a one-line reason. It translates the request; it never diagnoses or picks providers.
+- **Code validates the plan.** Category must be from the allowed list, terms are sanitized (max 8), the ZIP must match a real format. A keyword fallback produces the same plan when no LLM is available.
+- **Custom RAG search.** The plan's specialty terms drive retrieval over all 6,183 providers: BM25 keyword search plus a semantic (synonym + trigram) search, fused with reciprocal rank fusion into a pool of 40.
+- **Eligibility filter.** Removes invalid, inactive, out-of-area, wrong-category and duplicate records. Symptom requests exclude dental, pharmacy and behavioral health unless asked for.
+- **Location.** The address is geocoded with `geocoding.py`; distances are measured from that point to each provider's ZIP center (Census ZCTA). Without an address, the requested ZIP or Tempe is used, and the app says which.
+- **Deterministic ranking.** Each provider gets 0-100 scores for service match (35%), proximity (30%), price/affordability (20%), data confidence (10%) and verified availability (5%). Unknown data is never scored as negative.
+- **Exactly three results.** Code labels the top results A, B and C. It never pads; if fewer qualify, it says why.
+- **LLM explains, never ranks.** The model receives only those three records with their scores and source IDs and writes why A is first, why A beats B, and so on.
+- **Validation.** The explanation is rejected if it reorders providers, cites unknown sources, or claims something unverified (free, walk-in, accepting patients, invented distances, quality claims). A deterministic template is used instead.
+- **UI.** The AI Care Guide shows what the system looked for, where it searched, the A/B/C cards with reasons, a map for A and the score table.
+
+### Process flow
+```mermaid
+flowchart TD
+    Q[User question] --> S{Emergency words?}
+    S -- yes --> E[Show 911 / 988 message]
+    S -- no --> N{Symptom or location words?}
+    N -- no --> I[Rule-based intent: category, ZIP, keywords]
+    N -- yes --> L[LLM reads whole request]
+    L --> P[QueryPlan: care type, specialty terms, urgency, address, ZIP]
+    P --> V[Validate plan / keyword fallback]
+    V --> U{LLM urgency = emergency?}
+    U -- yes --> E
+    U -- no --> M[Merge plan into intent]
+    M --> G[Geocode address or use ZIP center]
+    I --> R
+    G --> R[Retrieve: BM25 + semantic search]
+    R --> F[Reciprocal rank fusion: pool of 40]
+    F --> H[Eligibility filter]
+    H --> K[Deterministic scoring and tie-breaks]
+    K --> T{Eligible providers?}
+    T -- none --> Z[Message naming the eliminating constraint]
+    T -- yes --> A[Select top 3: A, B, C]
+    A --> X[LLM explains the given order]
+    X --> C{Validate claims, order, citations}
+    C -- fail --> TP[Deterministic template explanation]
+    C -- pass --> O
+    TP --> O[Render A/B/C cards, reasons, map, score table]
+```
+
+### Key files
+| File | Role |
+|---|---|
+| `rag/understand.py` | Trigger detection, LLM `QueryPlan`, keyword fallback, merge into intent |
+| `rag/intent.py` | Rule-based intent and emergency detection |
+| `rag/retrieve.py` | BM25 + semantic retrieval, reciprocal rank fusion |
+| `rag/filter.py` | Eligibility filtering with elimination counts |
+| `rag/rank.py`, `rag/config.py` | Scoring, weights, tie-breaks |
+| `rag/geo.py`, `data/az_zip_centroids.csv` | ZIP centroids and distance |
+| `rag/prices.py` | Comparable price matching (local hospitals only) |
+| `rag/explain.py`, `llm/cortex_messages.py` | Prepared records, Cortex Messages structured output, template |
+| `rag/validate.py` | Order, citation and claim checks |
+| `rag/service.py` | `ProviderRecommendationService.recommend()` pipeline used by `app.py` |
+
 ## Tests
 ```bash
 uv run python scripts/check_data.py
 uv run python -m py_compile app.py agent.py repository.py
+uv run python -m unittest discover -s tests -t . -v
 ```
 
 ## Sources
