@@ -105,3 +105,14 @@ SELECT
     MAX(CASE WHEN rate_type = 'cash' THEN rate_amount END) AS max_cash_price
 FROM CARE_AI.CURATED.HOSPITAL_PRICES
 GROUP BY billing_code, billing_code_type, billing_code_description;
+
+-- Chat history (one message per row for easy querying and incremental inserts)
+CREATE TABLE IF NOT EXISTS CARE_AI.CURATED.CHAT_MESSAGES (
+    MESSAGE_ID STRING DEFAULT UUID_STRING(),
+    CONVERSATION_ID STRING NOT NULL,
+    USER_ID STRING DEFAULT 'anonymous',
+    ROLE STRING NOT NULL,
+    CONTENT STRING NOT NULL,
+    METADATA VARIANT,
+    CREATED_AT TIMESTAMP_TZ DEFAULT CURRENT_TIMESTAMP()
+);
