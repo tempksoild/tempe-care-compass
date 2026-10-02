@@ -47,18 +47,45 @@ class DemoRepository:
         return grouped.sort_values("price_spread", ascending=False).to_dict("records")
 
 
+def _load_snowflake_secrets():
+    """Read the [snowflake] table from .streamlit/secrets.toml, or {} if unavailable."""
+    path = Path(__file__).parent / ".streamlit" / "secrets.toml"
+    if not path.exists():
+        return {}
+    try:
+        import tomllib  # Python 3.11+
+    except ModuleNotFoundError:
+        import toml as tomllib  # bundled with streamlit on older Pythons
+        return tomllib.load(path).get("snowflake", {})
+    with path.open("rb") as f:
+        return tomllib.load(f).get("snowflake", {})
+
+
 class SnowflakeRepository:
-    def __init__(self):
+    def __init__(self, account=None, user=None, api_key=None, role=None, host=None):
         import snowflake.connector
-        self.con = snowflake.connector.connect(
-            account=os.environ["SNOWFLAKE_ACCOUNT"],
-            user=os.environ["SNOWFLAKE_USER"],
-            password=os.environ["SNOWFLAKE_PASSWORD"],
-            role=os.getenv("SNOWFLAKE_ROLE"),
+        # Outside Streamlit (e.g. scripts/), fall back to .streamlit/secrets.toml.
+        sf = _load_snowflake_secrets()
+        account = account or sf.get("account")
+        user = user or sf.get("user")
+        api_key = api_key or sf.get("api_key")
+        role = role or sf.get("role")
+        host = host or sf.get("host")
+        # Explicit args (from .streamlit/secrets.toml) win; env vars are the fallback.
+        # A Snowflake programmatic access token (api_key) is accepted as the password.
+        opts = dict(
+            account=account or os.environ["SNOWFLAKE_ACCOUNT"],
+            user=user or os.environ["SNOWFLAKE_USER"],
+            password=api_key or os.environ["SNOWFLAKE_PASSWORD"],
+            role=role or os.getenv("SNOWFLAKE_ROLE"),
             warehouse=os.getenv("SNOWFLAKE_WAREHOUSE", "COMPUTE_WH"),
             database=os.getenv("SNOWFLAKE_DATABASE", "CARE_AI"),
             schema=os.getenv("SNOWFLAKE_SCHEMA", "CURATED"),
         )
+        if host:
+            opts["host"] = host
+            opts["port"] = 443
+        self.con = snowflake.connector.connect(**opts)
 
     def _query(self, sql, params=()):
         with self.con.cursor() as c:

@@ -12,6 +12,14 @@ from agent import CareAgent, CortexAgent, _fallback_parse
 from repository import DemoRepository, SnowflakeRepository
 
 load_dotenv()
+
+# replace these values in your .streamlit/secrets.toml file, not here!
+HOST = st.secrets["snowflake"]["host"]
+ACCOUNT = st.secrets["snowflake"]["account"]
+USER = st.secrets["snowflake"]["user"]
+API_KEY = st.secrets["snowflake"]["api_key"]
+ROLE = st.secrets["snowflake"]["role"]
+
 st.set_page_config(page_title="Tempe Care Compass", page_icon="✚", layout="wide")
 
 st.markdown("""<style>
@@ -56,7 +64,15 @@ with st.sidebar:
 
 @st.cache_resource
 def get_repo(m):
-    return SnowflakeRepository() if m == "Snowflake" else DemoRepository()
+    if m == "Snowflake":
+        try:
+            repo = SnowflakeRepository(account=ACCOUNT, user=USER, api_key=API_KEY, role=ROLE, host=HOST)
+            st.info("Snowflake Connection established!", icon="💡")
+            return repo
+        except Exception:
+            st.error("Connection not established. Check your Snowflake credentials in .streamlit/secrets.toml!", icon="🚨")
+            st.stop()
+    return DemoRepository()
 
 
 def get_agent(backend, repo_instance):
@@ -100,8 +116,7 @@ with tab_dir:
             f'<div class="meta">{row.get("specialty", "")}<br>{addr}<br>{phone_display}</div>'
             f'<small>Affordability: {row.get("affordability", "Unknown—call to verify")} &middot; Updated: {row.get("last_updated", "Unknown")}</small><br>'
             f'<a href="{maps}" target="_blank" rel="noopener noreferrer">Directions ↗</a>'
-            f"</article>",
-            unsafe_allow_html=True,
+            f"</article>"
         )
 
 # --- Tab 2: Price Comparison ---
