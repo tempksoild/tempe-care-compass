@@ -53,6 +53,17 @@ with st.sidebar:
     limit = st.slider("Results", 5, 50, 20)
     go = st.button("Search directory", type="primary", use_container_width=True)
 
+    st.divider()
+    with st.expander("Data Sources"):
+        st.markdown(
+            "**Provider Directory**\n"
+            "- [Affine NPPES Provider Data](https://app.snowflake.com/marketplace/listing/GZT1Z2XIVUI) (Snowflake)\n"
+            "- [CMS NPPES API](https://npiregistry.cms.hhs.gov/api-page)\n\n"
+            "**Hospital Prices**\n"
+            "- [Healthparse Transparency Rates](https://app.snowflake.com/marketplace/listing/GZT1Z4WB6KD) (Snowflake)\n"
+            "- [CMS Price Transparency](https://www.cms.gov/priorities/key-initiatives/hospital-price-transparency)"
+        )
+
 
 @st.cache_resource
 def get_repo(m):
