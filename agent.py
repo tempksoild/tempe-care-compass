@@ -8,9 +8,14 @@
 #   parse(text)          -> CareIntent (category, zip, emergency, price_query)
 #   explain(q, rows)     -> grounded provider recommendation (<=170 words)
 #   explain_prices(q, price_rows, provider_rows) -> cost comparison (<=200 words)
+#   explain_ranking(q, intent, providers) -> TopThreeExplanation for code-ranked A/B/C
+#       Cortex: Messages API structured output; Ollama: /api/chat with JSON schema;
+#       either falls back to rag.explain.template_explanation (no LLM).
 
 import json, os, re, requests
 from pydantic import BaseModel, Field
+
+from rag import explain as rx
 
 
 class CareIntent(BaseModel):
@@ -85,12 +90,51 @@ class CareAgent:
             rates = [f"${r.get('rate_amount','?')} ({r.get('rate_type','?')})" for r in price_rows[:4]]
             return f"Published rates found: {', '.join(rates)}. Call each hospital to confirm your actual cost."
 
+    def explain_ranking(self, question, intent, providers, empty_message=None):
+        """Explain an order already computed by rag.rank; never re-rank."""
+        return _explain_ranking(
+            lambda: self.chat([{"role": "system", "content": rx.GENERATOR_PROMPT},
+                               {"role": "user", "content": rx.user_message(question, intent, providers)}],
+                              rx.EXPLANATION_SCHEMA),
+            self, question, intent, providers, empty_message)
+
+
+def _explain_ranking(call_llm, agent, question, intent, providers, empty_message):
+    """Shared path: LLM structured output -> parse/guard -> template fallback.
+    Sets agent.last_explain_source to 'llm' or 'template' (and last_error)."""
+    agent.last_error = None
+    if providers:
+        try:
+            exp = rx.parse_explanation(call_llm(), providers)
+            agent.last_explain_source = "llm"
+            return exp
+        except Exception as e:  # LLM down, bad JSON, or ranking changed
+            agent.last_error = str(e)
+    agent.last_explain_source = "template"
+    return rx.template_explanation(question, intent, providers, empty_message)
+
 
 class CortexAgent:
     """Snowflake Cortex-backed care navigation agent."""
-    def __init__(self, connection):
+    def __init__(self, connection, messages_client=None):
         self.con = connection
         self.model = os.getenv("CORTEX_MODEL", "llama3.1-8b")
+        self._messages = messages_client
+
+    @property
+    def messages(self):
+        """Cortex Messages API client, built lazily from the existing connection."""
+        if self._messages is None:
+            from llm.cortex_messages import CortexMessagesClient
+            self._messages = CortexMessagesClient.from_connection(self.con)
+        return self._messages
+
+    def explain_ranking(self, question, intent, providers, empty_message=None):
+        """Explain an order already computed by rag.rank; never re-rank."""
+        return _explain_ranking(
+            lambda: self.messages.create(rx.GENERATOR_PROMPT, rx.user_message(question, intent, providers),
+                                         rx.EXPLANATION_SCHEMA),
+            self, question, intent, providers, empty_message)
 
     def _complete(self, prompt):
         with self.con.cursor() as c:

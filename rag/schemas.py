@@ -42,6 +42,12 @@ class RankingBreakdown(BaseModel):
     financial_evidence_state: EvidenceState = EvidenceState.UNKNOWN
     availability_evidence_state: EvidenceState = EvidenceState.UNKNOWN
 
+    # Financial internals kept separate; `financial` is the one used in the total.
+    price_score: float | None = None
+    affordability_score: float | None = None
+    price_eligible: bool = False
+    financial_basis: str | None = None      # "price" | "affordability" | "neutral_unknown" | None
+
 
 class RankedProvider(BaseModel):
     rank: Rank | None = None
