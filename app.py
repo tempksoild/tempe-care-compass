@@ -11,6 +11,9 @@ import streamlit as st
 from dotenv import load_dotenv
 from agent import CareAgent, CortexAgent, _fallback_parse
 from repository import DemoRepository, SnowflakeRepository
+from datetime import datetime
+import time
+
 
 load_dotenv()
 st.set_page_config(page_title="Tempe Care Compass", page_icon="✚", layout="wide")
@@ -65,52 +68,43 @@ def get_agent(backend, repo_instance):
 
 
 # --- Data fetch ---
-r = get_repo(mode)
+with st.spinner("Fetching live data..."):
+    #time.sleep(3.0) #->test
+    r = get_repo(mode)
+    try:
+        rows = r.search(category, zipcode, keyword, limit)
+        fetch_err = ""
+    except Exception as e:
+        rows = []
+        fetch_err = str(e)
 
-try:
-    rows = r.search(category, zipcode, keyword, limit)
-    fetch_err = ""
-except Exception as e:
-    rows = []
-    fetch_err = str(e)
+st.caption(f"Data retrieved at: {datetime.now().strftime('%H:%M:%S.%f')}")
 
 # --- Tabs ---
 tab_dir, tab_prices, tab_ai = st.tabs(["Provider Directory", "Price Comparison", "AI Care Guide"])
 
 # --- Tab 1: Provider Directory ---
 with tab_dir:
-    @st.fragment(run_every="30s") #every 30s
-    def render_live_directory():
-        #fresh data
-        try:
-            live_rows = r.search(category, zipcode, keyword, limit)
-            err = ""
-        except Exception as e:
-            live_rows = []
-            err = str(e)
-            
-        st.subheader(f"Directory results ({len(live_rows)})")
-        if err:
-            st.error(err)
-        if not live_rows:
-            st.info("No matches. Try removing the ZIP or choosing All.")
-            
-        for row in live_rows:
-            addr = ", ".join(x for x in [row.get("address", ""), row.get("city", ""), row.get("state", ""), row.get("zip", "")] if x)
-            maps = "https://www.google.com/maps/search/?api=1&query=" + quote_plus(addr)
-            phone_display = row.get("phone", "") or "Phone not listed"
-            st.markdown(
-                f'<article class="card">'
-                f'<span class="badge">{row.get("category", "Care")}</span>'
-                f'<h3>{row.get("name", "Unnamed")}</h3>'
-                f'<div class="meta">{row.get("specialty", "")}<br>{addr}<br>{phone_display}</div>'
-                f'<small>Affordability: {row.get("affordability", "Unknown—call to verify")} &middot; Updated: {row.get("last_updated", "Unknown")}</small><br>'
-                f'<a href="{maps}" target="_blank" rel="noopener noreferrer">Directions ↗</a>'
-                f"</article>",
-                unsafe_allow_html=True,
-            )
-            
-    render_live_directory()
+    st.subheader(f"Directory results ({len(rows)})")
+    if fetch_err:
+        st.error(fetch_err)
+    if not rows:
+        st.info("No matches. Try removing the ZIP or choosing All.")
+        
+    for row in rows:
+        addr = ", ".join(x for x in [row.get("address", ""), row.get("city", ""), row.get("state", ""), row.get("zip", "")] if x)
+        maps = "https://www.google.com/maps/search/?api=1&query=" + quote_plus(addr)
+        phone_display = row.get("phone", "") or "Phone not listed"
+        st.markdown(
+            f'<article class="card">'
+            f'<span class="badge">{row.get("category", "Care")}</span>'
+            f'<h3>{row.get("name", "Unnamed")}</h3>'
+            f'<div class="meta">{row.get("specialty", "")}<br>{addr}<br>{phone_display}</div>'
+            f'<small>Affordability: {row.get("affordability", "Unknown—call to verify")} &middot; Updated: {row.get("last_updated", "Unknown")}</small><br>'
+            f'<a href="{maps}" target="_blank" rel="noopener noreferrer">Directions ↗</a>'
+            f"</article>",
+            unsafe_allow_html=True,
+        )
 # --- Tab 2: Price Comparison ---
 with tab_prices:
     st.subheader("Hospital Price Transparency")
