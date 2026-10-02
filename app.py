@@ -7,9 +7,16 @@
 import os
 from pathlib import Path
 from urllib.parse import quote_plus
+import importlib
 import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
+
+import agent
+import repository
+importlib.reload(agent)
+importlib.reload(repository)
+
 try:
     from agent import (
         CareAgent,
@@ -74,18 +81,25 @@ with st.sidebar:
 
 
 @st.cache_resource
-def get_repo(m):
+def get_repo(m, cache_version=5):
     return SnowflakeRepository() if m == "Snowflake" else DemoRepository()
 
 
 def get_agent(backend, repo_instance):
     if backend == "Cortex (Snowflake)" and hasattr(repo_instance, "con"):
-        return CortexAgent(repo_instance.con)
+        wh = getattr(repo_instance, "warehouse", "COMPUTE_WH")
+        try:
+            return CortexAgent(repo_instance.con, warehouse=wh)
+        except TypeError:
+            agent_inst = CortexAgent(repo_instance.con)
+            if hasattr(agent_inst, "warehouse"):
+                agent_inst.warehouse = wh
+            return agent_inst
     return None
 
 
 # --- Data fetch ---
-r = get_repo(mode)
+r = get_repo(mode, cache_version=5)
 if "rows" not in st.session_state or go:
     try:
         st.session_state.rows = r.search(category, zipcode, keyword, limit)
@@ -113,15 +127,26 @@ with tab_ai:
             if agent is None:
                 intent = _fallback_parse(q)
             else:
-                intent = agent.parse(q)
+                try:
+                    intent = agent.parse(q)
+                except Exception:
+                    intent = _fallback_parse(q)
 
             if intent.emergency:
                 st.error("Your message may describe an emergency. Call 911 now.")
 
             if intent.price_query:
-                price_results = r.search_prices(intent.procedure or "", limit=20)
+                try:
+                    price_results = r.search_prices(intent.procedure or "", limit=20)
+                except Exception:
+                    price_results = []
+
                 candidate_category = intent.category if intent.category != "All" else ("Imaging" if any(w in q.lower() for w in ["mri", "x-ray", "imaging", "ct scan", "ultrasound"]) else "Hospital")
-                proc_providers = r.search(category=candidate_category, zip_code=intent.zip_code or "", query=intent.procedure or "", limit=30)
+                try:
+                    proc_providers = r.search(category=candidate_category, zip_code=intent.zip_code or "", query=intent.procedure or "", limit=30)
+                except Exception:
+                    proc_providers = []
+
                 if not proc_providers:
                     proc_providers = [row for row in rows if intent.category == "All" or row.get("category") == intent.category] or rows
 
@@ -169,12 +194,17 @@ with tab_ai:
 
             else:
                 # Provider search inquiry
-                candidate_rows = r.search(
-                    category=intent.category,
-                    zip_code=intent.zip_code or "",
-                    query=intent.procedure or (" ".join(intent.keywords) if intent.keywords else ""),
-                    limit=50,
-                )
+                try:
+                    candidate_rows = r.search(
+                        category=intent.category,
+                        zip_code=intent.zip_code or "",
+                        query=intent.procedure or (" ".join(intent.keywords) if intent.keywords else ""),
+                        limit=50,
+                    )
+                except Exception as e:
+                    st.warning(f"Live directory search returned an error ({e}). Using cached directory.")
+                    candidate_rows = []
+
                 if not candidate_rows:
                     candidate_rows = [row for row in rows if intent.category == "All" or row.get("category") == intent.category] or rows
 
@@ -255,50 +285,101 @@ with tab_prices:
     st.subheader("Hospital Price Transparency")
     st.caption("Published rates from CMS-mandated hospital price files (Healthparse Marketplace sample). Actual costs may vary.")
 
-    comparisons = r.get_price_comparison()
-    if not comparisons:
-        st.info("No price comparison data available in this mode.")
-    else:
-        for comp in comparisons[:15]:
-            desc = comp.get("billing_code_description", "Unknown procedure")
-            min_p = comp.get("min_price", 0)
-            max_p = comp.get("max_price", 0)
-            avg_p = comp.get("avg_price", 0)
-            spread = comp.get("price_spread", 0)
-            n_hospitals = comp.get("hospital_count", 0)
-            cash_min = comp.get("min_cash_price")
-            cash_max = comp.get("max_cash_price")
+    proc_search = st.text_input(
+        "Search for a procedure",
+        placeholder="e.g. MRI, colonoscopy, knee, CT scan...",
+        help="Search published hospital rates by procedure name or billing code",
+    )
 
-            cash_line = ""
-            if cash_min and cash_max and cash_min != cash_max:
-                cash_line = f'<br>Cash/self-pay range: <span class="price-low">${cash_min:,.0f}</span> – <span class="price-high">${cash_max:,.0f}</span>'
-            elif cash_min:
-                cash_line = f'<br>Cash/self-pay: <span class="price-low">${cash_min:,.0f}</span>'
-
-            st.html(
-                f'<article class="card">'
-                f"<h3>{desc}</h3>"
-                f'<div class="meta">Across {n_hospitals} hospitals</div>'
-                f'<span class="price-low">${min_p:,.0f}</span> – <span class="price-high">${max_p:,.0f}</span> '
-                f"(avg ${avg_p:,.0f}, spread ${spread:,.0f})"
-                f"{cash_line}"
-                f"</article>"
-            )
-
-    st.divider()
-    proc_search = st.text_input("Search for a procedure", placeholder="MRI, colonoscopy, knee...")
     if proc_search:
-        price_results = r.search_prices(proc_search, limit=20)
+        # --- Searched state: display in tabular format (no repetitive cards) ---
+        st.subheader(f"Price Results for \"{proc_search}\"")
+        try:
+            price_results = r.search_prices(proc_search, limit=50)
+        except Exception as e:
+            st.error(f"Unable to search procedure prices: {e}")
+            price_results = []
+
         if price_results:
+            table_data = []
             for pr in price_results:
+                code_type = pr.get("billing_code_type", "")
+                code = pr.get("billing_code", "")
+                code_label = f"{code_type}: {code}".strip() if (code_type or code) else "N/A"
+                rate_amt = float(pr.get("rate_amount", 0) or 0)
+                table_data.append({
+                    "Procedure": pr.get("billing_code_description", "Unknown procedure"),
+                    "Billing Code": code_label,
+                    "Hospital CCN": pr.get("ccn", "N/A"),
+                    "Payer / Plan": pr.get("payer_name") or "Unspecified / Cash",
+                    "Rate Type": (pr.get("rate_type") or "negotiated").capitalize(),
+                    "Rate ($)": rate_amt,
+                })
+            df_results = pd.DataFrame(table_data)
+
+            rates = [row["Rate ($)"] for row in table_data if row["Rate ($)"] > 0]
+            c1, c2, c3, c4 = st.columns(4)
+            with c1:
+                st.metric("Rates Found", len(table_data))
+            with c2:
+                st.metric("Lowest Rate", f"${min(rates):,.2f}" if rates else "N/A")
+            with c3:
+                st.metric("Highest Rate", f"${max(rates):,.2f}" if rates else "N/A")
+            with c4:
+                st.metric("Average Rate", f"${sum(rates)/len(rates):,.2f}" if rates else "N/A")
+
+            st.dataframe(
+                df_results,
+                use_container_width=True,
+                hide_index=True,
+                column_config={
+                    "Procedure": st.column_config.TextColumn("Procedure", width="large"),
+                    "Billing Code": st.column_config.TextColumn("Billing Code", width="small"),
+                    "Hospital CCN": st.column_config.TextColumn("Hospital CCN", width="small"),
+                    "Payer / Plan": st.column_config.TextColumn("Payer / Plan", width="medium"),
+                    "Rate Type": st.column_config.TextColumn("Rate Type", width="small"),
+                    "Rate ($)": st.column_config.NumberColumn("Published Rate", format="$%.2f", width="small"),
+                },
+            )
+        else:
+            st.info(f"No price records found matching '{proc_search}'. Try another keyword like 'MRI', 'colonoscopy', or 'knee'.")
+
+    else:
+        # --- Default state before search: keep benchmark procedure cards ---
+        st.subheader("Procedure Benchmarks & Hospital Price Spreads")
+        st.caption("Common shoppable procedures showing rate variation across hospital facilities.")
+
+        try:
+            comparisons = r.get_price_comparison()
+        except Exception as e:
+            st.error(f"Unable to load price comparison data: {e}")
+            comparisons = []
+
+        if not comparisons:
+            st.info("No price comparison data available in this mode.")
+        else:
+            for comp in comparisons[:15]:
+                desc = comp.get("billing_code_description", "Unknown procedure")
+                min_p = comp.get("min_price", 0)
+                max_p = comp.get("max_price", 0)
+                avg_p = comp.get("avg_price", 0)
+                spread = comp.get("price_spread", 0)
+                n_hospitals = comp.get("hospital_count", 0)
+                cash_min = comp.get("min_cash_price")
+                cash_max = comp.get("max_cash_price")
+
+                cash_line = ""
+                if cash_min and cash_max and cash_min != cash_max:
+                    cash_line = f'<br>Cash/self-pay range: <span class="price-low">${cash_min:,.0f}</span> – <span class="price-high">${cash_max:,.0f}</span>'
+                elif cash_min:
+                    cash_line = f'<br>Cash/self-pay: <span class="price-low">${cash_min:,.0f}</span>'
+
                 st.html(
                     f'<article class="card">'
-                    f'<span class="badge">{pr.get("rate_type", "rate")}</span> '
-                    f'<span class="badge">{pr.get("billing_code_type", "")}: {pr.get("billing_code", "")}</span>'
-                    f'<h3>{pr.get("billing_code_description", "")}</h3>'
-                    f'<div class="meta">Hospital CCN: {pr.get("ccn", "N/A")} &middot; Payer: {pr.get("payer_name", "N/A")}</div>'
-                    f'<b>${float(pr.get("rate_amount", 0)):,.2f}</b>'
+                    f"<h3>{desc}</h3>"
+                    f'<div class="meta">Across {n_hospitals} hospitals</div>'
+                    f'<span class="price-low">${min_p:,.0f}</span> – <span class="price-high">${max_p:,.0f}</span> '
+                    f"(avg ${avg_p:,.0f}, spread ${spread:,.0f})"
+                    f"{cash_line}"
                     f"</article>"
                 )
-        else:
-            st.info("No price data found for that procedure.")

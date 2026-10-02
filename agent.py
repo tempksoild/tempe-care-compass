@@ -47,7 +47,7 @@ class CareAgent:
     def explain(self, question, rows):
         if not rows: return "No matching directory records were found. Broaden your search or call 211 for resource navigation."
         evidence = [{k:r.get(k,"") for k in ("name","category","specialty","address","phone","affordability","last_updated")} for r in rows[:6]]
-        prompt = f"Question: {question}\nDirectory evidence: {json.dumps(evidence)}\nSuggest 2-3 directory leads using only the evidence. Do not diagnose or claim a provider is free unless explicitly verified. Tell the user to call to confirm price, eligibility, hours, and new-patient status. Under 170 words."
+        prompt = f"Question: {question}\nDirectory evidence: {json.dumps(evidence, default=str)}\nSuggest 2-3 directory leads using only the evidence. Do not diagnose or claim a provider is free unless explicitly verified. Tell the user to call to confirm price, eligibility, hours, and new-patient status. Under 170 words."
         try:
             return self.chat([{"role":"system","content":"You are a cautious healthcare-navigation assistant, not a clinician."},{"role":"user","content":prompt}])
         except Exception:
@@ -59,7 +59,7 @@ class CareAgent:
         evidence = {k: provider.get(k, "") for k in ("name", "category", "specialty", "address", "city", "state", "zip", "phone", "affordability", "last_updated")}
         prompt = (
             f"Question: {question}\n"
-            f"Selected most relevant provider: {json.dumps(evidence)}\n"
+            f"Selected most relevant provider: {json.dumps(evidence, default=str)}\n"
             "Explain clearly why this single provider is the most relevant choice for the user's inquiry based on their specialty, location, and care type. "
             "Do not diagnose or claim a provider is free unless explicitly verified. "
             "Remind the user to call ahead to confirm price, accepted insurance, hours, and new-patient availability. Under 140 words."
@@ -75,9 +75,9 @@ class CareAgent:
         providers = []
         if provider_rows:
             providers = [{k: r.get(k, "") for k in ("name", "category", "phone", "address")} for r in provider_rows[:4]]
-        prompt = f"Question: {question}\nPrice evidence: {json.dumps(evidence)}\n"
+        prompt = f"Question: {question}\nPrice evidence: {json.dumps(evidence, default=str)}\n"
         if providers:
-            prompt += f"Nearby providers: {json.dumps(providers)}\n"
+            prompt += f"Nearby providers: {json.dumps(providers, default=str)}\n"
         prompt += "Compare prices across hospitals using only the evidence. Highlight the cheapest cash or self-pay option if available. Remind the user these are published rates and actual costs may vary. Under 200 words."
         try:
             return self.chat([{"role":"system","content":"You are a cautious healthcare cost navigation assistant. Never claim prices are final — they are published rates that may vary."},{"role":"user","content":prompt}])
@@ -88,17 +88,30 @@ class CareAgent:
 
 class CortexAgent:
     """Snowflake Cortex-backed care navigation agent."""
-    def __init__(self, connection):
+    def __init__(self, connection, *args, **kwargs):
         self.con = connection
+        self.warehouse = kwargs.get("warehouse") or (args[0] if args else getattr(connection, "warehouse", "COMPUTE_WH")) or "COMPUTE_WH"
         self.model = os.getenv("CORTEX_MODEL", "llama3.1-8b")
 
     def _complete(self, prompt):
-        with self.con.cursor() as c:
-            c.execute(
-                "SELECT SNOWFLAKE.CORTEX.COMPLETE(%s, %s) AS response",
-                (self.model, prompt),
-            )
-            return c.fetchone()[0]
+        try:
+            with self.con.cursor() as c:
+                c.execute(
+                    "SELECT SNOWFLAKE.CORTEX.COMPLETE(%s, %s) AS response",
+                    (self.model, prompt),
+                )
+                return c.fetchone()[0]
+        except Exception as e:
+            if "000606" in str(e) or "No active warehouse" in str(e):
+                with self.con.cursor() as c:
+                    c.execute(f"USE WAREHOUSE {self.warehouse}")
+                with self.con.cursor() as c:
+                    c.execute(
+                        "SELECT SNOWFLAKE.CORTEX.COMPLETE(%s, %s) AS response",
+                        (self.model, prompt),
+                    )
+                    return c.fetchone()[0]
+            raise
 
     def parse(self, text):
         return _fallback_parse(text)
@@ -108,7 +121,7 @@ class CortexAgent:
         evidence = [{k: r.get(k, "") for k in ("name", "category", "specialty", "address", "phone", "affordability", "last_updated")} for r in rows[:6]]
         prompt = (
             "You are a cautious healthcare-navigation assistant, not a clinician.\n\n"
-            f"Question: {question}\nDirectory evidence: {json.dumps(evidence)}\n"
+            f"Question: {question}\nDirectory evidence: {json.dumps(evidence, default=str)}\n"
             "Suggest 2-3 directory leads using only the evidence. Do not diagnose or claim a provider is free unless explicitly verified. "
             "Tell the user to call to confirm price, eligibility, hours, and new-patient status. Under 170 words."
         )
@@ -124,7 +137,7 @@ class CortexAgent:
         prompt = (
             "You are a cautious healthcare-navigation assistant, not a clinician.\n\n"
             f"Question: {question}\n"
-            f"Selected most relevant provider: {json.dumps(evidence)}\n"
+            f"Selected most relevant provider: {json.dumps(evidence, default=str)}\n"
             "Explain clearly why this single provider is the most relevant choice for the user's inquiry based on their specialty, location, and care type. "
             "Do not diagnose or claim a provider is free unless explicitly verified. "
             "Remind the user to call ahead to confirm price, accepted insurance, hours, and new-patient availability. Under 140 words."
@@ -142,10 +155,10 @@ class CortexAgent:
             providers = [{k: r.get(k, "") for k in ("name", "category", "phone", "address")} for r in provider_rows[:4]]
         prompt = (
             "You are a cautious healthcare cost navigation assistant. Never claim prices are final.\n\n"
-            f"Question: {question}\nPrice evidence: {json.dumps(evidence)}\n"
+            f"Question: {question}\nPrice evidence: {json.dumps(evidence, default=str)}\n"
         )
         if providers:
-            prompt += f"Nearby providers: {json.dumps(providers)}\n"
+            prompt += f"Nearby providers: {json.dumps(providers, default=str)}\n"
         prompt += "Compare prices across hospitals using only the evidence. Highlight the cheapest cash or self-pay option if available. Remind the user these are published rates and actual costs may vary. Under 200 words."
         try:
             return self._complete(prompt)
