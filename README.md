@@ -43,9 +43,9 @@ tempe-care-compass/
 ### File descriptions
 
 **`app.py`** — Main Streamlit application. Renders a 3-tab layout:
-1. **Provider Directory** — search and browse provider cards with Google Maps links
-2. **Price Comparison** — side-by-side hospital pricing for common procedures
-3. **AI Care Guide** — chatbot that recommends the single most relevant provider and renders a pinpoint map via `st.map`
+1. **AI Care Guide** — chatbot that recommends the single most relevant provider and renders a pinpoint map via `st.map`
+2. **Provider Directory** — search and browse provider cards with Google Maps links
+3. **Price Comparison** — side-by-side hospital pricing for common procedures
 
 Execution: `streamlit run app.py`
 

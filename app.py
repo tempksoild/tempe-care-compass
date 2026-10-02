@@ -1,6 +1,6 @@
 # app.py — Streamlit UI for Tempe Care Compass
 # Run: streamlit run app.py
-# Renders three tabs: Provider Directory, Price Comparison, AI Care Guide.
+# Renders three tabs: AI Care Guide, Provider Directory, Price Comparison.
 # Sidebar selects data source (Demo/Snowflake), AI backend (Cortex/Ollama/None),
 # care type, ZIP, keyword, and result limit.
 
@@ -64,7 +64,7 @@ st.html(
 # --- Sidebar ---
 with st.sidebar:
     mode = st.radio("Data source", ["Demo snapshot", "Snowflake"])
-    ai_backend = st.radio("AI backend", ["Cortex (Snowflake)", "Ollama (local)", "None"])
+    ai_backend = st.radio("AI backend", ["Cortex (Snowflake)"])
     st.divider()
     category = st.selectbox("Care type", ["All", "Clinic / primary care", "Pharmacy", "Dental", "Behavioral health", "Imaging", "Hospital", "Other care"])
     zipcode = st.text_input("ZIP code", placeholder="85281")
@@ -81,8 +81,6 @@ def get_repo(m):
 def get_agent(backend, repo_instance):
     if backend == "Cortex (Snowflake)" and hasattr(repo_instance, "con"):
         return CortexAgent(repo_instance.con)
-    elif backend == "Ollama (local)":
-        return CareAgent()
     return None
 
 
@@ -99,9 +97,139 @@ if "rows" not in st.session_state or go:
 rows = st.session_state.rows
 
 # --- Tabs ---
-tab_dir, tab_prices, tab_ai = st.tabs(["Provider Directory", "Price Comparison", "AI Care Guide"])
+tab_ai, tab_dir, tab_prices = st.tabs(["AI Care Guide", "Provider Directory", "Price Comparison"])
 
-# --- Tab 1: Provider Directory ---
+# --- Tab 1: AI Care Guide ---
+with tab_ai:
+    st.subheader("AI Care Guide")
+    st.caption("Powered by Snowflake Cortex. Fallback works if the model is unavailable.")
+
+    q = st.text_area("What do you need?", placeholder="I need a low-cost walk-in clinic near 85281, or: How much does an MRI cost?", height=130)
+    if st.button("Guide me", use_container_width=True):
+        if not q.strip():
+            st.warning("Describe what you need.")
+        else:
+            agent = get_agent(ai_backend, r)
+            if agent is None:
+                intent = _fallback_parse(q)
+            else:
+                intent = agent.parse(q)
+
+            if intent.emergency:
+                st.error("Your message may describe an emergency. Call 911 now.")
+
+            if intent.price_query:
+                price_results = r.search_prices(intent.procedure or "", limit=20)
+                candidate_category = intent.category if intent.category != "All" else ("Imaging" if any(w in q.lower() for w in ["mri", "x-ray", "imaging", "ct scan", "ultrasound"]) else "Hospital")
+                proc_providers = r.search(category=candidate_category, zip_code=intent.zip_code or "", query=intent.procedure or "", limit=30)
+                if not proc_providers:
+                    proc_providers = [row for row in rows if intent.category == "All" or row.get("category") == intent.category] or rows
+
+                if agent:
+                    st.write(agent.explain_prices(q, price_results, proc_providers[:4]))
+                else:
+                    if price_results:
+                        rates = [f"${r_item.get('rate_amount', '?')} ({r_item.get('rate_type', '?')})" for r_item in price_results[:4]]
+                        st.write(f"Published rates found: {', '.join(rates)}. Call each hospital to confirm your actual cost.")
+                    else:
+                        st.write("No price data found. Try searching the Price Comparison tab.")
+
+                best_provider = select_best_provider(q, proc_providers, intent=intent)
+                if best_provider:
+                    st.divider()
+                    st.subheader("Recommended Provider Facility")
+                    addr = ", ".join(x for x in [best_provider.get("address", ""), best_provider.get("city", ""), best_provider.get("state", ""), best_provider.get("zip", "")] if x)
+                    maps = "https://www.google.com/maps/search/?api=1&query=" + quote_plus(addr)
+                    phone_display = best_provider.get("phone", "") or "Phone not listed"
+
+                    st.html(
+                        f'<article class="card" style="border: 2px solid var(--teal-primary);">'
+                        f'<span class="badge">{best_provider.get("category", "Care")}</span> '
+                        f'<span class="badge" style="background:#e8f4f1; color:#075a55;">⭐ Recommended Facility</span>'
+                        f'<h3>{best_provider.get("name", "Unnamed")}</h3>'
+                        f'<div class="meta">{best_provider.get("specialty", "")}<br>{addr}<br>📞 {phone_display}</div>'
+                        f'<small>Affordability: {best_provider.get("affordability", "Unknown — call to verify")} &middot; Updated: {best_provider.get("last_updated", "Unknown")}</small><br>'
+                        f'<a href="{maps}" target="_blank" rel="noopener noreferrer">Directions ↗</a>'
+                        f'</article>'
+                    )
+
+                    coords = geocode_address(
+                        address=best_provider.get("address", ""),
+                        city=best_provider.get("city", "Tempe"),
+                        state=best_provider.get("state", "AZ"),
+                        zip_code=best_provider.get("zip", ""),
+                    )
+                    map_df = pd.DataFrame([{
+                        "latitude": coords["latitude"],
+                        "longitude": coords["longitude"],
+                    }])
+                    st.subheader("Location Pinpoint")
+                    st.caption(f"📍 {coords['formatted_address']} &middot; Coordinates: {coords['latitude']:.4f}° N, {abs(coords['longitude']):.4f}° W (via {coords['source']})")
+                    st.map(map_df, latitude="latitude", longitude="longitude", zoom=14, color="#075a55")
+
+            else:
+                # Provider search inquiry
+                candidate_rows = r.search(
+                    category=intent.category,
+                    zip_code=intent.zip_code or "",
+                    query=intent.procedure or (" ".join(intent.keywords) if intent.keywords else ""),
+                    limit=50,
+                )
+                if not candidate_rows:
+                    candidate_rows = [row for row in rows if intent.category == "All" or row.get("category") == intent.category] or rows
+
+                best_provider = select_best_provider(q, candidate_rows, intent=intent)
+
+                if not best_provider:
+                    st.info("No matching directory records were found. Broaden your search or call 211 for resource navigation.")
+                else:
+                    if agent and hasattr(agent, "explain_one"):
+                        explanation = agent.explain_one(q, best_provider)
+                    else:
+                        explanation = _fallback_explain_one(q, best_provider)
+
+                    st.subheader("Top Recommendation")
+                    st.write(explanation)
+
+                    addr = ", ".join(x for x in [best_provider.get("address", ""), best_provider.get("city", ""), best_provider.get("state", ""), best_provider.get("zip", "")] if x)
+                    maps = "https://www.google.com/maps/search/?api=1&query=" + quote_plus(addr)
+                    phone_display = best_provider.get("phone", "") or "Phone not listed"
+
+                    st.html(
+                        f'<article class="card" style="border: 2px solid var(--teal-primary);">'
+                        f'<span class="badge">{best_provider.get("category", "Care")}</span> '
+                        f'<span class="badge" style="background:#e8f4f1; color:#075a55;">⭐ Most Relevant Choice</span>'
+                        f'<h3>{best_provider.get("name", "Unnamed")}</h3>'
+                        f'<div class="meta">{best_provider.get("specialty", "")}<br>{addr}<br>📞 {phone_display}</div>'
+                        f'<small>Affordability: {best_provider.get("affordability", "Unknown — call to verify")} &middot; Updated: {best_provider.get("last_updated", "Unknown")}</small><br>'
+                        f'<a href="{maps}" target="_blank" rel="noopener noreferrer">Directions ↗</a>'
+                        f'</article>'
+                    )
+
+                    coords = geocode_address(
+                        address=best_provider.get("address", ""),
+                        city=best_provider.get("city", "Tempe"),
+                        state=best_provider.get("state", "AZ"),
+                        zip_code=best_provider.get("zip", ""),
+                    )
+                    map_df = pd.DataFrame([{
+                        "latitude": coords["latitude"],
+                        "longitude": coords["longitude"],
+                    }])
+                    st.subheader("Location Pinpoint")
+                    st.caption(f"📍 {coords['formatted_address']} &middot; Coordinates: {coords['latitude']:.4f}° N, {abs(coords['longitude']):.4f}° W (via {coords['source']})")
+                    st.map(map_df, latitude="latitude", longitude="longitude", zoom=14, color="#075a55")
+
+    with st.expander("Questions to ask when calling"):
+        st.markdown(
+            "- What is the self-pay price?\n"
+            "- Do you offer a sliding-fee scale?\n"
+            "- What documents are needed?\n"
+            "- Are you accepting new patients?\n"
+            "- Are labs or prescriptions included?"
+        )
+
+# --- Tab 2: Provider Directory ---
 with tab_dir:
     st.subheader(f"Directory results ({len(rows)})")
     if st.session_state.err:
@@ -122,7 +250,7 @@ with tab_dir:
             f"</article>"
         )
 
-# --- Tab 2: Price Comparison ---
+# --- Tab 3: Price Comparison ---
 with tab_prices:
     st.subheader("Hospital Price Transparency")
     st.caption("Published rates from CMS-mandated hospital price files (Healthparse Marketplace sample). Actual costs may vary.")
@@ -174,137 +302,3 @@ with tab_prices:
                 )
         else:
             st.info("No price data found for that procedure.")
-
-# --- Tab 3: AI Care Guide ---
-with tab_ai:
-    st.subheader("AI Care Guide")
-    if ai_backend == "None":
-        st.info("Select an AI backend in the sidebar to enable the care guide.")
-    else:
-        engine_label = "Snowflake Cortex" if "Cortex" in ai_backend else f"Ollama ({os.getenv('OLLAMA_MODEL', 'qwen3:8b')})"
-        st.caption(f"Powered by {engine_label}. Fallback works if the model is unavailable.")
-
-        q = st.text_area("What do you need?", placeholder="I need a low-cost walk-in clinic near 85281, or: How much does an MRI cost?", height=130)
-        if st.button("Guide me", use_container_width=True):
-            if not q.strip():
-                st.warning("Describe what you need.")
-            else:
-                agent = get_agent(ai_backend, r)
-                if agent is None:
-                    intent = _fallback_parse(q)
-                else:
-                    intent = agent.parse(q)
-
-                if intent.emergency:
-                    st.error("Your message may describe an emergency. Call 911 now.")
-
-                if intent.price_query:
-                    price_results = r.search_prices(intent.procedure or "", limit=20)
-                    candidate_category = intent.category if intent.category != "All" else ("Imaging" if any(w in q.lower() for w in ["mri", "x-ray", "imaging", "ct scan", "ultrasound"]) else "Hospital")
-                    proc_providers = r.search(category=candidate_category, zip_code=intent.zip_code or "", query=intent.procedure or "", limit=30)
-                    if not proc_providers:
-                        proc_providers = [row for row in rows if intent.category == "All" or row.get("category") == intent.category] or rows
-
-                    if agent:
-                        st.write(agent.explain_prices(q, price_results, proc_providers[:4]))
-                    else:
-                        if price_results:
-                            rates = [f"${r_item.get('rate_amount', '?')} ({r_item.get('rate_type', '?')})" for r_item in price_results[:4]]
-                            st.write(f"Published rates found: {', '.join(rates)}. Call each hospital to confirm your actual cost.")
-                        else:
-                            st.write("No price data found. Try searching the Price Comparison tab.")
-
-                    best_provider = select_best_provider(q, proc_providers, intent=intent)
-                    if best_provider:
-                        st.divider()
-                        st.subheader("Recommended Provider Facility")
-                        addr = ", ".join(x for x in [best_provider.get("address", ""), best_provider.get("city", ""), best_provider.get("state", ""), best_provider.get("zip", "")] if x)
-                        maps = "https://www.google.com/maps/search/?api=1&query=" + quote_plus(addr)
-                        phone_display = best_provider.get("phone", "") or "Phone not listed"
-
-                        st.html(
-                            f'<article class="card" style="border: 2px solid var(--teal-primary);">'
-                            f'<span class="badge">{best_provider.get("category", "Care")}</span> '
-                            f'<span class="badge" style="background:#e8f4f1; color:#075a55;">⭐ Recommended Facility</span>'
-                            f'<h3>{best_provider.get("name", "Unnamed")}</h3>'
-                            f'<div class="meta">{best_provider.get("specialty", "")}<br>{addr}<br>📞 {phone_display}</div>'
-                            f'<small>Affordability: {best_provider.get("affordability", "Unknown — call to verify")} &middot; Updated: {best_provider.get("last_updated", "Unknown")}</small><br>'
-                            f'<a href="{maps}" target="_blank" rel="noopener noreferrer">Directions ↗</a>'
-                            f'</article>'
-                        )
-
-                        coords = geocode_address(
-                            address=best_provider.get("address", ""),
-                            city=best_provider.get("city", "Tempe"),
-                            state=best_provider.get("state", "AZ"),
-                            zip_code=best_provider.get("zip", ""),
-                        )
-                        map_df = pd.DataFrame([{
-                            "latitude": coords["latitude"],
-                            "longitude": coords["longitude"],
-                        }])
-                        st.subheader("Location Pinpoint")
-                        st.caption(f"📍 {coords['formatted_address']} &middot; Coordinates: {coords['latitude']:.4f}° N, {abs(coords['longitude']):.4f}° W (via {coords['source']})")
-                        st.map(map_df, latitude="latitude", longitude="longitude", zoom=14, color="#075a55")
-
-                else:
-                    # Provider search inquiry
-                    candidate_rows = r.search(
-                        category=intent.category,
-                        zip_code=intent.zip_code or "",
-                        query=intent.procedure or (" ".join(intent.keywords) if intent.keywords else ""),
-                        limit=50,
-                    )
-                    if not candidate_rows:
-                        candidate_rows = [row for row in rows if intent.category == "All" or row.get("category") == intent.category] or rows
-
-                    best_provider = select_best_provider(q, candidate_rows, intent=intent)
-
-                    if not best_provider:
-                        st.info("No matching directory records were found. Broaden your search or call 211 for resource navigation.")
-                    else:
-                        if agent and hasattr(agent, "explain_one"):
-                            explanation = agent.explain_one(q, best_provider)
-                        else:
-                            explanation = _fallback_explain_one(q, best_provider)
-
-                        st.subheader("Top Recommendation")
-                        st.write(explanation)
-
-                        addr = ", ".join(x for x in [best_provider.get("address", ""), best_provider.get("city", ""), best_provider.get("state", ""), best_provider.get("zip", "")] if x)
-                        maps = "https://www.google.com/maps/search/?api=1&query=" + quote_plus(addr)
-                        phone_display = best_provider.get("phone", "") or "Phone not listed"
-
-                        st.html(
-                            f'<article class="card" style="border: 2px solid var(--teal-primary);">'
-                            f'<span class="badge">{best_provider.get("category", "Care")}</span> '
-                            f'<span class="badge" style="background:#e8f4f1; color:#075a55;">⭐ Most Relevant Choice</span>'
-                            f'<h3>{best_provider.get("name", "Unnamed")}</h3>'
-                            f'<div class="meta">{best_provider.get("specialty", "")}<br>{addr}<br>📞 {phone_display}</div>'
-                            f'<small>Affordability: {best_provider.get("affordability", "Unknown — call to verify")} &middot; Updated: {best_provider.get("last_updated", "Unknown")}</small><br>'
-                            f'<a href="{maps}" target="_blank" rel="noopener noreferrer">Directions ↗</a>'
-                            f'</article>'
-                        )
-
-                        coords = geocode_address(
-                            address=best_provider.get("address", ""),
-                            city=best_provider.get("city", "Tempe"),
-                            state=best_provider.get("state", "AZ"),
-                            zip_code=best_provider.get("zip", ""),
-                        )
-                        map_df = pd.DataFrame([{
-                            "latitude": coords["latitude"],
-                            "longitude": coords["longitude"],
-                        }])
-                        st.subheader("Location Pinpoint")
-                        st.caption(f"📍 {coords['formatted_address']} &middot; Coordinates: {coords['latitude']:.4f}° N, {abs(coords['longitude']):.4f}° W (via {coords['source']})")
-                        st.map(map_df, latitude="latitude", longitude="longitude", zoom=14, color="#075a55")
-
-        with st.expander("Questions to ask when calling"):
-            st.markdown(
-                "- What is the self-pay price?\n"
-                "- Do you offer a sliding-fee scale?\n"
-                "- What documents are needed?\n"
-                "- Are you accepting new patients?\n"
-                "- Are labs or prescriptions included?"
-            )
