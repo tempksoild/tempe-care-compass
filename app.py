@@ -38,7 +38,6 @@ with st.sidebar:
     zipcode = st.text_input("ZIP code", placeholder="85281")
     keyword = st.text_input("Name or specialty", placeholder="urgent care")
     limit = st.slider("Results", 5, 50, 20)
-    go = st.button("Search directory", type="primary", use_container_width=True)
 
     st.divider()
     with st.expander("Data Sources"):
@@ -67,40 +66,51 @@ def get_agent(backend, repo_instance):
 
 # --- Data fetch ---
 r = get_repo(mode)
-if "rows" not in st.session_state or go:
-    try:
-        st.session_state.rows = r.search(category, zipcode, keyword, limit)
-        st.session_state.err = ""
-    except Exception as e:
-        st.session_state.rows = []
-        st.session_state.err = str(e)
 
-rows = st.session_state.rows
+try:
+    rows = r.search(category, zipcode, keyword, limit)
+    fetch_err = ""
+except Exception as e:
+    rows = []
+    fetch_err = str(e)
 
 # --- Tabs ---
 tab_dir, tab_prices, tab_ai = st.tabs(["Provider Directory", "Price Comparison", "AI Care Guide"])
 
 # --- Tab 1: Provider Directory ---
 with tab_dir:
-    st.subheader(f"Directory results ({len(rows)})")
-    if st.session_state.err:
-        st.error(st.session_state.err)
-    if not rows:
-        st.info("No matches. Try removing the ZIP or choosing All.")
-    for row in rows:
-        addr = ", ".join(x for x in [row.get("address", ""), row.get("city", ""), row.get("state", ""), row.get("zip", "")] if x)
-        maps = "https://www.google.com/maps/search/?api=1&query=" + quote_plus(addr)
-        phone_display = row.get("phone", "") or "Phone not listed"
-        st.html(
-            f'<article class="card">'
-            f'<span class="badge">{row.get("category", "Care")}</span>'
-            f'<h3>{row.get("name", "Unnamed")}</h3>'
-            f'<div class="meta">{row.get("specialty", "")}<br>{addr}<br>{phone_display}</div>'
-            f'<small>Affordability: {row.get("affordability", "Unknown—call to verify")} &middot; Updated: {row.get("last_updated", "Unknown")}</small><br>'
-            f'<a href="{maps}" target="_blank" rel="noopener noreferrer">Directions ↗</a>'
-            f"</article>"
-        )
-
+    @st.fragment(run_every="30s") #every 30s
+    def render_live_directory():
+        #fresh data
+        try:
+            live_rows = r.search(category, zipcode, keyword, limit)
+            err = ""
+        except Exception as e:
+            live_rows = []
+            err = str(e)
+            
+        st.subheader(f"Directory results ({len(live_rows)})")
+        if err:
+            st.error(err)
+        if not live_rows:
+            st.info("No matches. Try removing the ZIP or choosing All.")
+            
+        for row in live_rows:
+            addr = ", ".join(x for x in [row.get("address", ""), row.get("city", ""), row.get("state", ""), row.get("zip", "")] if x)
+            maps = "https://www.google.com/maps/search/?api=1&query=" + quote_plus(addr)
+            phone_display = row.get("phone", "") or "Phone not listed"
+            st.markdown(
+                f'<article class="card">'
+                f'<span class="badge">{row.get("category", "Care")}</span>'
+                f'<h3>{row.get("name", "Unnamed")}</h3>'
+                f'<div class="meta">{row.get("specialty", "")}<br>{addr}<br>{phone_display}</div>'
+                f'<small>Affordability: {row.get("affordability", "Unknown—call to verify")} &middot; Updated: {row.get("last_updated", "Unknown")}</small><br>'
+                f'<a href="{maps}" target="_blank" rel="noopener noreferrer">Directions ↗</a>'
+                f"</article>",
+                unsafe_allow_html=True,
+            )
+            
+    render_live_directory()
 # --- Tab 2: Price Comparison ---
 with tab_prices:
     st.subheader("Hospital Price Transparency")
