@@ -44,6 +44,7 @@ except ImportError:
 from html import escape
 from geocoding import geocode_address
 from rag.service import ProviderRecommendationService
+from rag.understand import needs_understanding
 from repository import DemoRepository, SnowflakeRepository
 
 load_dotenv()
@@ -127,10 +128,16 @@ def render_top_three(result):
         st.error(result.limitations[0])
         return
     if not result.providers:
+        if result.care_guidance:
+            st.info(result.care_guidance, icon="🧭")
         st.info(result.limitations[0] if result.limitations else "No matching providers were found.")
         return
 
     st.subheader(f"Top {len(result.providers)} providers")
+    if result.care_guidance:
+        st.info(result.care_guidance, icon="🧭")
+    if result.location_used:
+        st.caption(f"📍 {result.location_used}")
     st.caption(f"Understood as: {result.query_understood_as} · Ranked by: {', '.join(result.ranking_basis)}")
     explanations = {e.source_id: e for e in result.explanations}
     retriever = get_service(mode).retriever
@@ -220,7 +227,9 @@ with tab_ai:
             if intent.emergency:
                 st.error("Your message may describe an emergency. Call 911 now.")
 
-            if intent.price_query:
+            # Symptom / location requests always go through LLM understanding + RAG,
+            # even if they mention cost ("cheap place for my fever near Mill Ave").
+            if intent.price_query and not needs_understanding(q):
                 price_results = r.search_prices(intent.procedure or "", limit=20)
                 candidate_category = intent.category if intent.category != "All" else ("Imaging" if any(w in q.lower() for w in ["mri", "x-ray", "imaging", "ct scan", "ultrasound"]) else "Hospital")
                 proc_providers = r.search(category=candidate_category, zip_code=intent.zip_code or "", query=intent.procedure or "", limit=30)
@@ -271,8 +280,8 @@ with tab_ai:
 
             elif not intent.emergency:
                 # Provider search inquiry: retrieval -> filter -> deterministic rank -> A/B/C explanation
-                with st.spinner("Ranking providers..."):
-                    result = get_service(mode).recommend(q, agent=agent)
+                with st.spinner("Understanding your request and ranking providers..."):
+                    result = get_service(mode).recommend(q, agent=agent, geocoder=geocode_address)
                 render_top_three(result)
 
     with st.expander("Questions to ask when calling"):

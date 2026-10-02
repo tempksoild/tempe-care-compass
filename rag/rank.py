@@ -59,6 +59,15 @@ def request_terms(intent: RetrievalIntent) -> list[str]:
     return [t for t in dict.fromkeys(terms) if len(t) >= 3]
 
 
+def term_positions(intent: RetrievalIntent) -> dict[str, int]:
+    """term (incl. synonyms) -> position of the keyword it came from."""
+    pos: dict[str, int] = {}
+    for i, kw in enumerate(intent.keywords):
+        for t in [kw] + SERVICE_SYNONYMS.get(kw, []):
+            pos.setdefault(t, i)
+    return pos
+
+
 def service_fact(c: Candidate, intent: RetrievalIntent) -> ScoredFact:
     r, sid = c.record, c.source_id
     specialty, name = str(r.get("specialty") or ""), str(r.get("name") or "")
@@ -67,7 +76,16 @@ def service_fact(c: Candidate, intent: RetrievalIntent) -> ScoredFact:
     spec_hit = next((t for t in terms if specialty and _contains(specialty, t)), None)
     name_hit = next((t for t in terms if _contains(name, t)), None)
 
-    if cat_ok and spec_hit:
+    hit_positions = ([p for t, p in term_positions(intent).items() if _contains(specialty, t)]
+                     if cat_ok and spec_hit and intent.term_priority else [])
+    if hit_positions:
+        # Plan terms are ordered best-first by the understanding step ("urgent care" before
+        # "orthopedic"): the best-positioned matching term (synonyms inherit their source
+        # term's position) sets the score, floored at the category+keyword tier.
+        score = max(cfg.SERVICE_CATEGORY_KEYWORD,
+                    cfg.SERVICE_SPECIALTY_MATCH - cfg.SERVICE_TERM_STEP * min(hit_positions))
+        why = f"Specialty '{specialty}' matches requested '{spec_hit}'"
+    elif cat_ok and spec_hit:
         score, why = cfg.SERVICE_SPECIALTY_MATCH, f"Specialty '{specialty}' matches requested '{spec_hit}'"
     elif cat_ok and name_hit and intent.category != "All":
         score, why = cfg.SERVICE_CATEGORY_KEYWORD, f"{r.get('category')} category and name matches '{name_hit}'"
@@ -116,9 +134,11 @@ def proximity_fact(c: Candidate, intent: RetrievalIntent, user_coords: tuple[flo
     p_coords = exact or zip_centroid(pzip)
     if u_coords and p_coords:
         d = round(haversine_miles(u_coords, p_coords), 1)
-        frm = intent.zip_code if u_method == "zip_centroid" else "your location"
-        return _prox(proximity_score(d),
-                     f"About {d} miles between ZIP centers ({frm} to {pzip}); approximate, not street-level",
+        if u_method == "zip_centroid":
+            why = f"About {d} miles between ZIP centers ({intent.zip_code} to {pzip}); approximate, not street-level"
+        else:
+            why = f"About {d} miles from your location to the center of ZIP {pzip}; approximate, not street-level"
+        return _prox(proximity_score(d), why,
                      [sid, u_id, f"GEO:zcta_centroid:{pzip}"], EvidenceState.VERIFIED_YES, d, "zip_centroid")
     if str(r.get("city") or "").strip().lower() == cfg.SERVICE_AREA["city"]:
         return _prox(cfg.LOCATION_MATCH_SCORES["same_city"],

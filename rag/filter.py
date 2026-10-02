@@ -69,6 +69,8 @@ class EligibilityFilter:
             return "outside_area"
         if intent.category != "All" and r.get("category") != intent.category:
             return "wrong_category"
+        if r.get("category") in intent.excluded_categories:
+            return "wrong_category"
         if intent.price_query and intent.billing_codes and self.price_index is not None:
             codes = self.price_index.get(c.source_id, set())
             if not codes & set(map(tuple, intent.billing_codes)):

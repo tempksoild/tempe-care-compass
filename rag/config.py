@@ -11,6 +11,7 @@ WEIGHTS = {
 
 # Service match (0-100)
 SERVICE_SPECIALTY_MATCH = 100      # request term found in specialty
+SERVICE_TERM_STEP = 5              # per-position drop for ordered plan terms (rag/understand.py)
 SERVICE_CATEGORY_KEYWORD = 85      # right category + request term in name
 SERVICE_CATEGORY_ONLY = 70         # right category, no term match
 SERVICE_SEMANTIC_MIN = 40          # semantic similarity only: 40-69

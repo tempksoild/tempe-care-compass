@@ -95,3 +95,7 @@ class TopProviderResponse(BaseModel):
     eliminated_by: dict[str, int] = Field(default_factory=dict)
     explanation_source: str = "template"     # "llm" | "template"
     ranking_disclaimer: str = ""
+    care_guidance: str | None = None         # from rag/understand.py QueryPlan (navigation, not diagnosis)
+    location_used: str | None = None         # how the user's location was resolved
+    user_coordinates: tuple[float, float] | None = None
+    understanding_source: str | None = None  # "llm" | "fallback" | None (not needed)

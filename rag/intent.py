@@ -87,6 +87,8 @@ class RetrievalIntent(BaseModel):
     verified_only: bool = False               # affordability becomes a hard filter
     emergency: bool = False
     emergency_reason: str | None = None
+    excluded_categories: list[str] = Field(default_factory=list)  # set by rag/understand.py for symptom requests
+    term_priority: bool = False      # keywords are ordered best-first (from a QueryPlan)
 
 
 def _has(pattern: str, text: str) -> bool:

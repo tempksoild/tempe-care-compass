@@ -16,6 +16,7 @@ import json, os, re, requests
 from pydantic import BaseModel, Field
 
 from rag import explain as rx
+from rag import understand as ru
 from rag.validate import validate_explanation
 
 
@@ -91,6 +92,12 @@ class CareAgent:
             rates = [f"${r.get('rate_amount','?')} ({r.get('rate_type','?')})" for r in price_rows[:4]]
             return f"Published rates found: {', '.join(rates)}. Call each hospital to confirm your actual cost."
 
+    def understand_request(self, question):
+        """LLM reads the whole request -> QueryPlan (care type, search terms, urgency, location)."""
+        return _understand(lambda: self.chat([{"role": "system", "content": ru.UNDERSTAND_PROMPT},
+                                              {"role": "user", "content": question}], ru.PLAN_SCHEMA),
+                           self, question)
+
     def explain_ranking(self, question, intent, providers, empty_message=None):
         """Explain an order already computed by rag.rank; never re-rank."""
         return _explain_ranking(
@@ -98,6 +105,16 @@ class CareAgent:
                                {"role": "user", "content": rx.user_message(question, intent, providers)}],
                               rx.EXPLANATION_SCHEMA),
             self, question, intent, providers, empty_message)
+
+
+def _understand(call_llm, agent, question):
+    """LLM structured plan, keyword fallback on any failure. Sets agent.last_understand_error."""
+    agent.last_understand_error = None
+    try:
+        return ru.parse_plan(call_llm())
+    except Exception as e:
+        agent.last_understand_error = str(e)
+        return ru.fallback_plan(question)
 
 
 def _explain_ranking(call_llm, agent, question, intent, providers, empty_message):
@@ -129,6 +146,11 @@ class CortexAgent:
             from llm.cortex_messages import CortexMessagesClient
             self._messages = CortexMessagesClient.from_connection(self.con)
         return self._messages
+
+    def understand_request(self, question):
+        """Cortex Messages API reads the whole request -> QueryPlan."""
+        return _understand(lambda: self.messages.create(ru.UNDERSTAND_PROMPT, question, ru.PLAN_SCHEMA,
+                                                        max_tokens=600), self, question)
 
     def explain_ranking(self, question, intent, providers, empty_message=None):
         """Explain an order already computed by rag.rank; never re-rank."""
