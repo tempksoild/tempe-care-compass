@@ -4,6 +4,7 @@
 #   SnowflakeRepository — executes parameterized SQL against CARE_AI.CURATED.*
 #
 # Both expose the same interface:
+#   all_providers()                           -> list[dict]  (full corpus + source_id, for rag/)
 #   search(category, zip_code, query, limit)  -> list[dict]  (provider records)
 #   search_prices(procedure, limit)           -> list[dict]  (hospital pricing rows)
 #   get_price_comparison()                    -> list[dict]  (aggregated price spreads)
@@ -14,6 +15,19 @@ import pandas as pd
 
 
 class DemoRepository:
+    def all_providers(self):
+        """Full provider table with stable source_ids (RAG retrieval corpus)."""
+        from rag.citations import attach_source_ids
+        df = pd.read_csv(Path(__file__).parent / "data/tempe_nppes_demo.csv", dtype=str).fillna("")
+        return attach_source_ids(df.to_dict("records"), kind="provider")
+
+    def all_prices(self):
+        """Hospital price rows (CCN kept as text) for rag/prices.py."""
+        csv_path = Path(__file__).parent / "data/tempe_prices_demo.csv"
+        if not csv_path.exists():
+            return []
+        return pd.read_csv(csv_path, dtype=str).fillna("").to_dict("records")
+
     def search(self, category="All", zip_code="", query="", limit=50):
         df = pd.read_csv(Path(__file__).parent / "data/tempe_nppes_demo.csv", dtype=str).fillna("")
         if category != "All": df = df[df.category == category]
@@ -47,18 +61,45 @@ class DemoRepository:
         return grouped.sort_values("price_spread", ascending=False).to_dict("records")
 
 
+def _load_snowflake_secrets():
+    """Read the [snowflake] table from .streamlit/secrets.toml, or {} if unavailable."""
+    path = Path(__file__).parent / ".streamlit" / "secrets.toml"
+    if not path.exists():
+        return {}
+    try:
+        import tomllib  # Python 3.11+
+    except ModuleNotFoundError:
+        import toml as tomllib  # bundled with streamlit on older Pythons
+        return tomllib.load(path).get("snowflake", {})
+    with path.open("rb") as f:
+        return tomllib.load(f).get("snowflake", {})
+
+
 class SnowflakeRepository:
-    def __init__(self):
+    def __init__(self, account=None, user=None, api_key=None, role=None, host=None):
         import snowflake.connector
-        self.con = snowflake.connector.connect(
-            account=os.environ["SNOWFLAKE_ACCOUNT"],
-            user=os.environ["SNOWFLAKE_USER"],
-            password=os.environ["SNOWFLAKE_PASSWORD"],
-            role=os.getenv("SNOWFLAKE_ROLE"),
+        # Outside Streamlit (e.g. scripts/), fall back to .streamlit/secrets.toml.
+        sf = _load_snowflake_secrets()
+        account = account or sf.get("account")
+        user = user or sf.get("user")
+        api_key = api_key or sf.get("api_key")
+        role = role or sf.get("role")
+        host = host or sf.get("host")
+        # Explicit args (from .streamlit/secrets.toml) win; env vars are the fallback.
+        # A Snowflake programmatic access token (api_key) is accepted as the password.
+        opts = dict(
+            account=account or os.environ["SNOWFLAKE_ACCOUNT"],
+            user=user or os.environ["SNOWFLAKE_USER"],
+            password=api_key or os.environ["SNOWFLAKE_PASSWORD"],
+            role=role or os.getenv("SNOWFLAKE_ROLE"),
             warehouse=os.getenv("SNOWFLAKE_WAREHOUSE", "COMPUTE_WH"),
             database=os.getenv("SNOWFLAKE_DATABASE", "CARE_AI"),
             schema=os.getenv("SNOWFLAKE_SCHEMA", "CURATED"),
         )
+        if host:
+            opts["host"] = host
+            opts["port"] = 443
+        self.con = snowflake.connector.connect(**opts)
 
     def _query(self, sql, params=()):
         with self.con.cursor() as c:
@@ -83,6 +124,27 @@ class SnowflakeRepository:
             query, f"%{query}%", f"%{query}%",
             int(limit),
         ))
+
+    def all_providers(self):
+        """Full provider table with stable source_ids (RAG retrieval corpus)."""
+        from rag.citations import attach_source_ids
+        sql = """
+            SELECT NPI, NAME, CATEGORY, SPECIALTY, ADDRESS, CITY, STATE, ZIP,
+                   PHONE, LAST_UPDATED, AFFORDABILITY, SOURCE
+            FROM CARE_AI.CURATED.TEMPE_PROVIDERS
+            ORDER BY NAME
+        """
+        rows = [{k: ("" if v is None else str(v)) for k, v in r.items()} for r in self._query(sql)]
+        return attach_source_ids(rows, kind="provider")
+
+    def all_prices(self):
+        """Hospital price rows for rag/prices.py."""
+        sql = """
+            SELECT ccn, billing_code, billing_code_type, billing_code_description,
+                   payer_name, setting, rate_type, rate_amount, snapshot_date
+            FROM CARE_AI.CURATED.HOSPITAL_PRICES
+        """
+        return [{k: ("" if v is None else str(v)) for k, v in r.items()} for r in self._query(sql)]
 
     def search_prices(self, procedure="", limit=20):
         sql = """

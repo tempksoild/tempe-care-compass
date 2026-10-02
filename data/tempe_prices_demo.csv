@@ -1,49 +1,1001 @@
-ccn,billing_code,billing_code_type,billing_code_description,payer_name,rate_type,rate_amount,snapshot_date
-050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,negotiated,328.08,2026-05-22
-050444,45378,CPT,DIAGNOSTIC COLONOSCOPY,Commercial,negotiated,347.39,2026-05-22
-050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,negotiated,347.39,2026-05-22
-051319,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,negotiated,413.44,2026-05-22
-051319,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,negotiated,413.44,2026-05-22
-050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,negotiated,433.27,2026-05-22
-050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,negotiated,433.27,2026-05-22
-050058,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,negotiated,487.00,2026-05-22
-050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,negotiated,508.17,2026-05-22
-050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,negotiated,534.04,2026-05-22
-050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,negotiated,534.04,2026-05-22
-050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,negotiated,508.18,2026-05-22
-050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,negotiated,534.04,2026-05-22
-050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,negotiated,4544.00,2026-05-22
-050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,negotiated,6545.46,2026-05-22
-050107,45378,CPT,DIAGNOSTIC COLONOSCOPY,max,max,9264.00,2026-05-22
-050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,max,max,9063.00,2026-05-22
-050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,gross,gross,252199.00,2026-05-22
-050242,70551,CPT,MR BRAIN WO CON,cash,cash,1077.30,2026-05-22
-051319,70551,CPT,MR BRAIN WO CON,cash,cash,1694.70,2026-05-22
-051332,70551,CPT,MR BRAIN WO CON,cash,cash,1877.40,2026-05-22
-050042,70551,CPT,MR BRAIN WO CON,cash,cash,2380.00,2026-05-22
-050300,70551,CPT,MR BRAIN WO CON,cash,cash,2745.40,2026-05-22
-050036,70551,CPT,MR BRAIN WO CON,cash,cash,3150.70,2026-05-22
-050457,70551,CPT,MR BRAIN WO CON,cash,cash,3388.70,2026-05-22
-050590,70551,CPT,MR BRAIN WO CON,cash,cash,3564.40,2026-05-22
-050129,70551,CPT,MR BRAIN WO CON,negotiated,negotiated,230.13,2026-05-22
-050089,70551,CPT,MR BRAIN WO CON,Medicare,negotiated,232.97,2026-05-22
-051319,70551,CPT,MR BRAIN WO CON,Blue Cross Blue Shield,negotiated,259.38,2026-05-22
-050036,70551,CPT,MR BRAIN WO CON,gross,gross,4501.00,2026-05-22
-050242,70551,CPT,MR BRAIN WO CON,gross,gross,1539.00,2026-05-22
-051319,70551,CPT,MR BRAIN WO CON,gross,gross,2421.00,2026-05-22
-050414,70551,CPT,MR BRAIN WO CON,gross,gross,5092.00,2026-05-22
-050036,70551,CPT,MR BRAIN WO CON,min,min,272.89,2026-05-22
-050042,70551,CPT,MR BRAIN WO CON,max,max,3400.00,2026-05-22
-050036,70551,CPT,MR BRAIN WO CON,max,max,13139.00,2026-05-22
-051319,27447,CPT,TOTAL KNEE ARTHROPLASTY,Medicare,negotiated,1475.26,2026-05-22
-050197,27447,CPT,TOTAL KNEE ARTHROPLASTY,Medicare,negotiated,1464.95,2026-05-22
-050444,27447,CPT,TOTAL KNEE ARTHROPLASTY,Anthem BCBS,negotiated,2392.44,2026-05-22
-050058,27447,CPT,TOTAL KNEE ARTHROPLASTY,Anthem BCBS,negotiated,2456.53,2026-05-22
-050036,27447,CPT,TOTAL KNEE ARTHROPLASTY,Blue Cross Blue Shield,negotiated,3761.05,2026-05-22
-050036,27447,CPT,TOTAL KNEE ARTHROPLASTY,UnitedHealthcare,negotiated,28758.00,2026-05-22
-050036,27447,CPT,TOTAL KNEE ARTHROPLASTY,UnitedHealthcare,negotiated,13127.00,2026-05-22
-050107,27447,CPT,TOTAL KNEE ARTHROPLASTY,max,max,26468.00,2026-05-22
-050414,27447,CPT,TOTAL KNEE ARTHROPLASTY,max,max,26461.00,2026-05-22
-050300,27447,CPT,TOTAL KNEE ARTHROPLASTY,max,max,24116.00,2026-05-22
-050127,27447,CPT,TOTAL KNEE ARTHROPLASTY,max,max,20582.00,2026-05-22
-050036,27447,CPT,TOTAL KNEE ARTHROPLASTY,UnitedHealthcare,negotiated,59358.85,2026-05-22
+ccn,billing_code,billing_code_type,billing_code_description,payer_name,setting,rate_type,rate_amount,snapshot_date
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Cigna,both,negotiated,215.36,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,min,215.36,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Cigna,both,negotiated,253.36,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,beech st [10600],both,negotiated,258.42,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Kaiser Permanente,both,negotiated,258.42,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,claritev [13400],both,negotiated,258.42,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,private healthcare systems (phcs) [14200],both,negotiated,258.42,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Cigna,both,negotiated,258.43,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,min,258.43,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,health plan of san mateo [31200],both,negotiated,260.61,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Cigna,both,negotiated,304.04,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Kaiser Permanente,both,negotiated,310.1,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,claritev [13400],both,negotiated,310.1,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,private healthcare systems (phcs) [14200],both,negotiated,310.1,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,beech st [10600],both,negotiated,310.1,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Health Net,both,negotiated,362.88,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,blue card (out of state) [40000],both,negotiated,395.61,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Blue Cross Blue Shield,both,negotiated,395.61,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,shca comm intel [20300000],both,negotiated,395.61,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,umr [17000],both,negotiated,427.24,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,UnitedHealthcare,both,negotiated,427.24,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Health Net,both,negotiated,435.45,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Blue Cross Blue Shield,both,negotiated,474.73,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,blue card (out of state) [40000],both,negotiated,474.73,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,shca comm intel [20300000],both,negotiated,474.73,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Aetna,both,negotiated,489.15,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,umr [17000],both,negotiated,512.69,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,UnitedHealthcare,both,negotiated,512.69,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,max,570.47,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Blue Cross Blue Shield,both,negotiated,570.47,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,american specialty health plan alt payer [971000000],both,negotiated,570.47,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Aetna,both,negotiated,586.98,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,max,684.56,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,american specialty health plan alt payer [971000000],both,negotiated,684.56,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Blue Cross Blue Shield,both,negotiated,684.56,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,outpatient,min,725.75,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Health Net,outpatient,negotiated,725.75,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,outpatient,min,870.9,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Health Net,outpatient,negotiated,870.9,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Aetna,outpatient,negotiated,1222.87,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,outpatient,max,1222.87,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,health plan of san mateo [31200],inpatient,negotiated,1303.05,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,health plan of san mateo [31200],both,negotiated,1303.05,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,min,1303.05,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,health plan of san mateo [31200],outpatient,negotiated,1303.05,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,inpatient,min,1303.05,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Cigna,both,negotiated,1346.0,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Cigna,inpatient,negotiated,1346.0,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Health Net,both,negotiated,1451.51,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Health Net,inpatient,negotiated,1451.51,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,inpatient,min,1451.51,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Aetna,outpatient,negotiated,1467.44,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Cigna,inpatient,negotiated,1583.53,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Cigna,both,negotiated,1583.53,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,private healthcare systems (phcs) [14200],both,negotiated,1615.11,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,claritev [13400],inpatient,negotiated,1615.11,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Kaiser Permanente,inpatient,negotiated,1615.11,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,beech st [10600],inpatient,negotiated,1615.11,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Kaiser Permanente,both,negotiated,1615.11,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,beech st [10600],both,negotiated,1615.11,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,private healthcare systems (phcs) [14200],inpatient,negotiated,1615.11,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,claritev [13400],both,negotiated,1615.11,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Cigna,both,negotiated,1615.2,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Cigna,outpatient,negotiated,1615.2,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Health Net,both,negotiated,1741.81,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Cigna,both,negotiated,1900.24,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Cigna,outpatient,negotiated,1900.24,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Kaiser Permanente,both,negotiated,1938.13,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,claritev [13400],outpatient,negotiated,1938.13,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,private healthcare systems (phcs) [14200],outpatient,negotiated,1938.13,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,beech st [10600],both,negotiated,1938.13,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,claritev [13400],both,negotiated,1938.13,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,beech st [10600],outpatient,negotiated,1938.13,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,private healthcare systems (phcs) [14200],both,negotiated,1938.13,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Kaiser Permanente,outpatient,negotiated,1938.13,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,min,1954.58,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,health plan of san mateo [31200],both,negotiated,1954.58,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Cigna,both,negotiated,2019.0,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Health Net,both,negotiated,2177.26,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Cigna,both,negotiated,2375.3,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Kaiser Permanente,both,negotiated,2422.67,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,beech st [10600],both,negotiated,2422.67,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,private healthcare systems (phcs) [14200],both,negotiated,2422.67,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,claritev [13400],both,negotiated,2422.67,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,inpatient,max,2445.74,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Aetna,both,negotiated,2445.74,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Aetna,inpatient,negotiated,2445.74,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Blue Cross Blue Shield,both,negotiated,2472.54,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,shca comm intel [20300000],both,negotiated,2472.54,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,shca comm intel [20300000],inpatient,negotiated,2472.54,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,blue card (out of state) [40000],inpatient,negotiated,2472.54,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,blue card (out of state) [40000],both,negotiated,2472.54,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Blue Cross Blue Shield,inpatient,negotiated,2472.54,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,cash,2494.53,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,UnitedHealthcare,inpatient,negotiated,2670.27,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,umr [17000],both,negotiated,2670.27,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,umr [17000],inpatient,negotiated,2670.27,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,UnitedHealthcare,both,negotiated,2670.27,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Aetna,both,negotiated,2934.89,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,shca comm intel [20300000],outpatient,negotiated,2967.05,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Blue Cross Blue Shield,outpatient,negotiated,2967.05,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,blue card (out of state) [40000],outpatient,negotiated,2967.05,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,shca comm intel [20300000],both,negotiated,2967.05,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Blue Cross Blue Shield,both,negotiated,2967.05,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,blue card (out of state) [40000],both,negotiated,2967.05,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,cash,3118.16,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,umr [17000],outpatient,negotiated,3204.32,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,UnitedHealthcare,outpatient,negotiated,3204.32,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,UnitedHealthcare,both,negotiated,3204.32,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,umr [17000],both,negotiated,3204.32,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,max,3565.44,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,american specialty health plan alt payer [971000000],inpatient,negotiated,3565.44,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,american specialty health plan alt payer [971000000],both,negotiated,3565.44,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Blue Cross Blue Shield,inpatient,negotiated,3565.44,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,inpatient,max,3565.44,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Blue Cross Blue Shield,both,negotiated,3565.44,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Aetna,both,negotiated,3668.61,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,shca comm intel [20300000],both,negotiated,3708.81,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Blue Cross Blue Shield,both,negotiated,3708.81,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,blue card (out of state) [40000],both,negotiated,3708.81,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,cash,3744.5,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,umr [17000],both,negotiated,4005.41,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,UnitedHealthcare,both,negotiated,4005.41,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,max,4005.41,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,american specialty health plan alt payer [971000000],both,negotiated,4278.52,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,max,4278.52,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Blue Cross Blue Shield,both,negotiated,4278.52,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,american specialty health plan alt payer [971000000],outpatient,negotiated,4278.52,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,Blue Cross Blue Shield,outpatient,negotiated,4278.52,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,outpatient,max,4278.52,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,inpatient,cash,4535.5,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,outpatient,cash,4535.5,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,cash,4535.5,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,gross,4989.05,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,outpatient,cash,5669.38,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,cash,5669.38,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,inpatient,cash,5669.38,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,gross,6236.31,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,gross,7489.0,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,inpatient,gross,9071.0,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,outpatient,gross,9071.0,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,cash,9071.0,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,gross,9071.0,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,outpatient,gross,11338.75,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,gross,11338.75,2026-05-22
+050441,27447,CPT,Arthrp Kne Condyle&Platu Medial&Lat Cmprts,,both,gross,18142.0,2026-05-22
+050222,45378,CPT,COLONOSCOPY,medi-cal,outpatient,negotiated,195.42,2026-05-22
+050222,45378,CPT,COLONOSCOPY,minimum negotiated charge,outpatient,negotiated,195.42,2026-05-22
+054145,45378,CPT,COLONOSCOPY,minimum negotiated charge,outpatient,negotiated,195.42,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Molina,outpatient,negotiated,195.42,2026-05-22
+050234,45378,CPT,COLONOSCOPY,medi-cal,outpatient,negotiated,195.42,2026-05-22
+050234,45378,CPT,COLONOSCOPY,county of san diego,outpatient,negotiated,195.42,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,195.42,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Molina,outpatient,negotiated,195.42,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,195.42,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Molina,outpatient,negotiated,195.42,2026-05-22
+050100,45378,CPT,COLONOSCOPY,county of san diego,outpatient,negotiated,195.42,2026-05-22
+059800,45378,CPT,COLONOSCOPY,county of san diego,outpatient,negotiated,195.42,2026-05-22
+050100,45378,CPT,COLONOSCOPY,minimum negotiated charge,outpatient,negotiated,195.42,2026-05-22
+050222,45378,CPT,COLONOSCOPY,county of san diego,outpatient,negotiated,195.42,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,195.42,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Molina,outpatient,negotiated,195.42,2026-05-22
+054145,45378,CPT,COLONOSCOPY,county of san diego,outpatient,negotiated,195.42,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,195.42,2026-05-22
+054145,45378,CPT,COLONOSCOPY,medi-cal,outpatient,negotiated,195.42,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Molina,outpatient,negotiated,195.42,2026-05-22
+050234,45378,CPT,COLONOSCOPY,minimum negotiated charge,outpatient,negotiated,195.42,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Molina,outpatient,negotiated,195.42,2026-05-22
+059800,45378,CPT,COLONOSCOPY,medi-cal,outpatient,negotiated,195.42,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,195.42,2026-05-22
+050026,45378,CPT,COLONOSCOPY,minimum negotiated charge,outpatient,negotiated,195.42,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,195.42,2026-05-22
+059800,45378,CPT,COLONOSCOPY,minimum negotiated charge,outpatient,negotiated,195.42,2026-05-22
+050026,45378,CPT,COLONOSCOPY,medi-cal,outpatient,negotiated,195.42,2026-05-22
+050100,45378,CPT,COLONOSCOPY,medi-cal,outpatient,negotiated,195.42,2026-05-22
+050026,45378,CPT,COLONOSCOPY,county of san diego,outpatient,negotiated,195.42,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Molina,outpatient,negotiated,207.29,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Molina,outpatient,negotiated,207.29,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Molina,outpatient,negotiated,207.29,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Molina,outpatient,negotiated,207.29,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Molina,outpatient,negotiated,207.29,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Molina,outpatient,negotiated,207.29,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,279.45,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,279.45,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,279.45,2026-05-22
+050100,45378,CPT,COLONOSCOPY,california health and wellness,outpatient,negotiated,279.45,2026-05-22
+050234,45378,CPT,COLONOSCOPY,california health and wellness,outpatient,negotiated,279.45,2026-05-22
+059800,45378,CPT,COLONOSCOPY,california health and wellness,outpatient,negotiated,279.45,2026-05-22
+050222,45378,CPT,COLONOSCOPY,california health and wellness,outpatient,negotiated,279.45,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,279.45,2026-05-22
+054145,45378,CPT,COLONOSCOPY,california health and wellness,outpatient,negotiated,279.45,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,279.45,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,410.38,2026-05-22
+050026,45378,CPT,COLONOSCOPY,california health and wellness,outpatient,negotiated,410.38,2026-05-22
+050234,45378,CPT,COLONOSCOPY,community health group medi-cal,outpatient,negotiated,446.46,2026-05-22
+054145,45378,CPT,COLONOSCOPY,community health group medi-cal,outpatient,negotiated,446.46,2026-05-22
+059800,45378,CPT,COLONOSCOPY,community health group medi-cal,outpatient,negotiated,446.46,2026-05-22
+050100,45378,CPT,COLONOSCOPY,community health group medi-cal,outpatient,negotiated,446.46,2026-05-22
+050026,45378,CPT,COLONOSCOPY,community health group medi-cal,outpatient,negotiated,446.46,2026-05-22
+050222,45378,CPT,COLONOSCOPY,community health group medi-cal,outpatient,negotiated,446.46,2026-05-22
+050026,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,574.02,2026-05-22
+050222,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,574.02,2026-05-22
+050100,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,574.02,2026-05-22
+059800,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,574.02,2026-05-22
+050234,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,574.02,2026-05-22
+054145,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,574.02,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,589.97,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,589.97,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,589.97,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,589.97,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,589.97,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,589.97,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Aetna,outpatient,negotiated,637.8,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Aetna,outpatient,negotiated,637.8,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Aetna,outpatient,negotiated,637.8,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Aetna,outpatient,negotiated,637.8,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Aetna,outpatient,negotiated,637.8,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Aetna,outpatient,negotiated,637.8,2026-05-22
+050100,45378,CPT,COLONOSCOPY,minimum negotiated charge,inpatient,negotiated,725.0,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Kaiser Permanente,inpatient,negotiated,725.0,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Kaiser Permanente,inpatient,negotiated,725.0,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Kaiser Permanente,inpatient,negotiated,725.0,2026-05-22
+050026,45378,CPT,COLONOSCOPY,minimum negotiated charge,inpatient,negotiated,725.0,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Kaiser Permanente,inpatient,negotiated,725.0,2026-05-22
+059800,45378,CPT,COLONOSCOPY,minimum negotiated charge,inpatient,negotiated,725.0,2026-05-22
+050234,45378,CPT,COLONOSCOPY,minimum negotiated charge,inpatient,negotiated,725.0,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Kaiser Permanente,inpatient,negotiated,725.0,2026-05-22
+050222,45378,CPT,COLONOSCOPY,minimum negotiated charge,inpatient,negotiated,725.0,2026-05-22
+054145,45378,CPT,COLONOSCOPY,minimum negotiated charge,inpatient,negotiated,725.0,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Kaiser Permanente,inpatient,negotiated,725.0,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Medicare,outpatient,negotiated,940.2,2026-05-22
+050026,45378,CPT,COLONOSCOPY,san diego pace,outpatient,negotiated,940.2,2026-05-22
+050222,45378,CPT,COLONOSCOPY,indian health council,outpatient,negotiated,940.2,2026-05-22
+054145,45378,CPT,COLONOSCOPY,indian health council,outpatient,negotiated,940.2,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Medicare,outpatient,negotiated,940.2,2026-05-22
+050234,45378,CPT,COLONOSCOPY,community health group cal mediconnect,outpatient,negotiated,940.2,2026-05-22
+059800,45378,CPT,COLONOSCOPY,community health group cal mediconnect,outpatient,negotiated,940.2,2026-05-22
+050100,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,940.2,2026-05-22
+050026,45378,CPT,COLONOSCOPY,indian health council,outpatient,negotiated,940.2,2026-05-22
+050222,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,940.2,2026-05-22
+059800,45378,CPT,COLONOSCOPY,indian health council,outpatient,negotiated,940.2,2026-05-22
+050100,45378,CPT,COLONOSCOPY,san diego pace,outpatient,negotiated,940.2,2026-05-22
+050100,45378,CPT,COLONOSCOPY,indian health council,outpatient,negotiated,940.2,2026-05-22
+050026,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,940.2,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Medicare,outpatient,negotiated,940.2,2026-05-22
+059800,45378,CPT,COLONOSCOPY,san diego pace,outpatient,negotiated,940.2,2026-05-22
+050234,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,940.2,2026-05-22
+050222,45378,CPT,COLONOSCOPY,san diego pace,outpatient,negotiated,940.2,2026-05-22
+050234,45378,CPT,COLONOSCOPY,san diego pace,outpatient,negotiated,940.2,2026-05-22
+059800,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,940.2,2026-05-22
+054145,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,940.2,2026-05-22
+054145,45378,CPT,COLONOSCOPY,community health group cal mediconnect,outpatient,negotiated,940.2,2026-05-22
+050100,45378,CPT,COLONOSCOPY,community health group cal mediconnect,outpatient,negotiated,940.2,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Medicare,outpatient,negotiated,940.2,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Medicare,outpatient,negotiated,940.2,2026-05-22
+050026,45378,CPT,COLONOSCOPY,community health group cal mediconnect,outpatient,negotiated,940.2,2026-05-22
+050222,45378,CPT,COLONOSCOPY,community health group cal mediconnect,outpatient,negotiated,940.2,2026-05-22
+050234,45378,CPT,COLONOSCOPY,indian health council,outpatient,negotiated,940.2,2026-05-22
+054145,45378,CPT,COLONOSCOPY,san diego pace,outpatient,negotiated,940.2,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Medicare,outpatient,negotiated,940.2,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Kaiser Permanente,outpatient,negotiated,1084.26,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Kaiser Permanente,inpatient,negotiated,1084.26,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Kaiser Permanente,outpatient,negotiated,1254.23,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Kaiser Permanente,inpatient,negotiated,1254.23,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Kaiser Permanente,inpatient,negotiated,1271.45,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Kaiser Permanente,outpatient,negotiated,1271.45,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Kaiser Permanente,outpatient,negotiated,1271.45,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Kaiser Permanente,inpatient,negotiated,1271.45,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Kaiser Permanente,inpatient,negotiated,1271.45,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Kaiser Permanente,outpatient,negotiated,1271.45,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Aetna,outpatient,negotiated,1296.33,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Aetna,outpatient,negotiated,1296.33,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Aetna,outpatient,negotiated,1296.33,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Aetna,outpatient,negotiated,1296.33,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Aetna,outpatient,negotiated,1296.33,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Aetna,outpatient,negotiated,1296.33,2026-05-22
+050026,45378,CPT,COLONOSCOPY,UnitedHealthcare,inpatient,negotiated,1371.27,2026-05-22
+050222,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,1371.27,2026-05-22
+050234,45378,CPT,COLONOSCOPY,UnitedHealthcare,inpatient,negotiated,1371.27,2026-05-22
+059800,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,1371.27,2026-05-22
+050100,45378,CPT,COLONOSCOPY,UnitedHealthcare,inpatient,negotiated,1371.27,2026-05-22
+050100,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,1371.27,2026-05-22
+050026,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,1371.27,2026-05-22
+059800,45378,CPT,COLONOSCOPY,UnitedHealthcare,inpatient,negotiated,1371.27,2026-05-22
+050234,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,1371.27,2026-05-22
+050222,45378,CPT,COLONOSCOPY,UnitedHealthcare,inpatient,negotiated,1371.27,2026-05-22
+054145,45378,CPT,COLONOSCOPY,UnitedHealthcare,inpatient,negotiated,1371.27,2026-05-22
+054145,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,1371.27,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Kaiser Permanente,inpatient,negotiated,1465.35,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Kaiser Permanente,outpatient,negotiated,1465.35,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Cigna,outpatient,negotiated,1506.8,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Cigna,outpatient,negotiated,1506.8,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Cigna,outpatient,negotiated,1506.8,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Cigna,outpatient,negotiated,1506.8,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Cigna,outpatient,negotiated,1506.8,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Cigna,outpatient,negotiated,1506.8,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,1692.37,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,1692.37,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,1692.37,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,1692.37,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,1692.37,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,1692.37,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Molina,outpatient,negotiated,1786.39,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Molina,outpatient,negotiated,1786.39,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Molina,outpatient,negotiated,1786.39,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Molina,outpatient,negotiated,1786.39,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Molina,outpatient,negotiated,1786.39,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Molina,outpatient,negotiated,1786.39,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,inpatient,negotiated,1801.79,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,1801.79,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,inpatient,negotiated,1801.79,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,inpatient,negotiated,1801.79,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,1801.79,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,1801.79,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,1801.79,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,inpatient,negotiated,1801.79,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,inpatient,negotiated,1801.79,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,1801.79,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,inpatient,negotiated,1801.79,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,1801.79,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,1880.41,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,1880.41,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,1880.41,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,1880.41,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,1880.41,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,1880.41,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,1889.81,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,1889.81,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,1889.81,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,1889.81,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,1889.81,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,1889.81,2026-05-22
+050234,45378,CPT,COLONOSCOPY,First Health,inpatient,negotiated,1977.18,2026-05-22
+054145,45378,CPT,COLONOSCOPY,First Health,inpatient,negotiated,1977.18,2026-05-22
+050100,45378,CPT,COLONOSCOPY,First Health,inpatient,negotiated,1977.18,2026-05-22
+059800,45378,CPT,COLONOSCOPY,First Health,inpatient,negotiated,1977.18,2026-05-22
+050222,45378,CPT,COLONOSCOPY,First Health,inpatient,negotiated,1977.18,2026-05-22
+050026,45378,CPT,COLONOSCOPY,First Health,inpatient,negotiated,1977.18,2026-05-22
+050026,45378,CPT,COLONOSCOPY,UnitedHealthcare,inpatient,negotiated,1993.13,2026-05-22
+050234,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,1993.13,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,1993.13,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Health Net,inpatient,negotiated,1993.13,2026-05-22
+059800,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,1993.13,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Health Net,inpatient,negotiated,1993.13,2026-05-22
+050100,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,1993.13,2026-05-22
+054145,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,1993.13,2026-05-22
+059800,45378,CPT,COLONOSCOPY,UnitedHealthcare,inpatient,negotiated,1993.13,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Health Net,inpatient,negotiated,1993.13,2026-05-22
+050100,45378,CPT,COLONOSCOPY,UnitedHealthcare,inpatient,negotiated,1993.13,2026-05-22
+054145,45378,CPT,COLONOSCOPY,UnitedHealthcare,inpatient,negotiated,1993.13,2026-05-22
+050234,45378,CPT,COLONOSCOPY,UnitedHealthcare,inpatient,negotiated,1993.13,2026-05-22
+050222,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,1993.13,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,1993.13,2026-05-22
+050026,45378,CPT,COLONOSCOPY,UnitedHealthcare,outpatient,negotiated,1993.13,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,1993.13,2026-05-22
+050222,45378,CPT,COLONOSCOPY,UnitedHealthcare,inpatient,negotiated,1993.13,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,inpatient,negotiated,2152.58,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,inpatient,negotiated,2152.58,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,2152.58,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,2152.58,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,2152.58,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,2152.58,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,inpatient,negotiated,2152.58,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,inpatient,negotiated,2152.58,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,inpatient,negotiated,2152.58,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,2152.58,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,2152.58,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,inpatient,negotiated,2152.58,2026-05-22
+050100,45378,CPT,COLONOSCOPY,azga services canada,inpatient,negotiated,2168.52,2026-05-22
+050100,45378,CPT,COLONOSCOPY,azga services canada,outpatient,negotiated,2168.52,2026-05-22
+050234,45378,CPT,COLONOSCOPY,azga services canada,inpatient,negotiated,2168.52,2026-05-22
+050234,45378,CPT,COLONOSCOPY,azga services canada,outpatient,negotiated,2168.52,2026-05-22
+054145,45378,CPT,COLONOSCOPY,azga services canada,outpatient,negotiated,2168.52,2026-05-22
+059800,45378,CPT,COLONOSCOPY,azga services canada,inpatient,negotiated,2168.52,2026-05-22
+054145,45378,CPT,COLONOSCOPY,azga services canada,inpatient,negotiated,2168.52,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Health Net,inpatient,negotiated,2168.52,2026-05-22
+050026,45378,CPT,COLONOSCOPY,azga services canada,inpatient,negotiated,2168.52,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Health Net,inpatient,negotiated,2168.52,2026-05-22
+050026,45378,CPT,COLONOSCOPY,azga services canada,outpatient,negotiated,2168.52,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Health Net,inpatient,negotiated,2168.52,2026-05-22
+050222,45378,CPT,COLONOSCOPY,azga services canada,outpatient,negotiated,2168.52,2026-05-22
+059800,45378,CPT,COLONOSCOPY,azga services canada,outpatient,negotiated,2168.52,2026-05-22
+050222,45378,CPT,COLONOSCOPY,azga services canada,inpatient,negotiated,2168.52,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Aetna,inpatient,negotiated,2176.49,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Aetna,outpatient,negotiated,2176.49,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Aetna,outpatient,negotiated,2176.49,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Aetna,inpatient,negotiated,2176.49,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Aetna,outpatient,negotiated,2176.49,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Aetna,inpatient,negotiated,2176.49,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Aetna,outpatient,negotiated,2176.49,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Aetna,outpatient,negotiated,2176.49,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Aetna,inpatient,negotiated,2176.49,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Aetna,outpatient,negotiated,2176.49,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Aetna,inpatient,negotiated,2176.49,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Aetna,inpatient,negotiated,2176.49,2026-05-22
+050222,45378,CPT,COLONOSCOPY,First Health,outpatient,negotiated,2232.3,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Medicare,outpatient,negotiated,2232.3,2026-05-22
+059800,45378,CPT,COLONOSCOPY,axa assistance,inpatient,negotiated,2232.3,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Medicare,outpatient,negotiated,2232.3,2026-05-22
+050234,45378,CPT,COLONOSCOPY,axa assistance,outpatient,negotiated,2232.3,2026-05-22
+054145,45378,CPT,COLONOSCOPY,axa assistance,inpatient,negotiated,2232.3,2026-05-22
+050234,45378,CPT,COLONOSCOPY,axa assistance,inpatient,negotiated,2232.3,2026-05-22
+059800,45378,CPT,COLONOSCOPY,First Health,outpatient,negotiated,2232.3,2026-05-22
+050100,45378,CPT,COLONOSCOPY,First Health,outpatient,negotiated,2232.3,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Medicare,outpatient,negotiated,2232.3,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Medicare,outpatient,negotiated,2232.3,2026-05-22
+050026,45378,CPT,COLONOSCOPY,First Health,outpatient,negotiated,2232.3,2026-05-22
+054145,45378,CPT,COLONOSCOPY,axa assistance,outpatient,negotiated,2232.3,2026-05-22
+050222,45378,CPT,COLONOSCOPY,axa assistance,outpatient,negotiated,2232.3,2026-05-22
+050026,45378,CPT,COLONOSCOPY,axa assistance,inpatient,negotiated,2232.3,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Medicare,outpatient,negotiated,2232.3,2026-05-22
+050026,45378,CPT,COLONOSCOPY,axa assistance,outpatient,negotiated,2232.3,2026-05-22
+050234,45378,CPT,COLONOSCOPY,First Health,outpatient,negotiated,2232.3,2026-05-22
+054145,45378,CPT,COLONOSCOPY,First Health,outpatient,negotiated,2232.3,2026-05-22
+050222,45378,CPT,COLONOSCOPY,axa assistance,inpatient,negotiated,2232.3,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Medicare,outpatient,negotiated,2232.3,2026-05-22
+059800,45378,CPT,COLONOSCOPY,axa assistance,outpatient,negotiated,2232.3,2026-05-22
+050100,45378,CPT,COLONOSCOPY,axa assistance,outpatient,negotiated,2232.3,2026-05-22
+050100,45378,CPT,COLONOSCOPY,axa assistance,inpatient,negotiated,2232.3,2026-05-22
+050234,45378,CPT,COLONOSCOPY,interplan,outpatient,negotiated,2391.75,2026-05-22
+050234,45378,CPT,COLONOSCOPY,interplan,inpatient,negotiated,2391.75,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Multiplan,outpatient,negotiated,2455.53,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Multiplan,outpatient,negotiated,2455.53,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Multiplan,outpatient,negotiated,2455.53,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Multiplan,inpatient,negotiated,2455.53,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Multiplan,inpatient,negotiated,2455.53,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Multiplan,inpatient,negotiated,2455.53,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Multiplan,outpatient,negotiated,2455.53,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Multiplan,outpatient,negotiated,2455.53,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Multiplan,inpatient,negotiated,2455.53,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Multiplan,inpatient,negotiated,2455.53,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Multiplan,inpatient,negotiated,2455.53,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Multiplan,outpatient,negotiated,2455.53,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,2551.2,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Kaiser Permanente,outpatient,negotiated,2551.2,2026-05-22
+050234,45378,CPT,COLONOSCOPY,choice care network,inpatient,negotiated,2551.2,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,2551.2,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Cigna,inpatient,negotiated,2551.2,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Cigna,inpatient,negotiated,2551.2,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Cigna,inpatient,negotiated,2551.2,2026-05-22
+050222,45378,CPT,COLONOSCOPY,choice care network,inpatient,negotiated,2551.2,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Cigna,outpatient,negotiated,2551.2,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Cigna,outpatient,negotiated,2551.2,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Cigna,inpatient,negotiated,2551.2,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Kaiser Permanente,outpatient,negotiated,2551.2,2026-05-22
+059800,45378,CPT,COLONOSCOPY,choice care network,outpatient,negotiated,2551.2,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Cigna,inpatient,negotiated,2551.2,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Cigna,outpatient,negotiated,2551.2,2026-05-22
+050026,45378,CPT,COLONOSCOPY,choice care network,outpatient,negotiated,2551.2,2026-05-22
+059800,45378,CPT,COLONOSCOPY,choice care network,inpatient,negotiated,2551.2,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Cigna,inpatient,negotiated,2551.2,2026-05-22
+050100,45378,CPT,COLONOSCOPY,choice care network,inpatient,negotiated,2551.2,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Kaiser Permanente,outpatient,negotiated,2551.2,2026-05-22
+050222,45378,CPT,COLONOSCOPY,choice care network,outpatient,negotiated,2551.2,2026-05-22
+050234,45378,CPT,COLONOSCOPY,choice care network,outpatient,negotiated,2551.2,2026-05-22
+054145,45378,CPT,COLONOSCOPY,choice care network,outpatient,negotiated,2551.2,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Kaiser Permanente,outpatient,negotiated,2551.2,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Cigna,outpatient,negotiated,2551.2,2026-05-22
+050026,45378,CPT,COLONOSCOPY,choice care network,inpatient,negotiated,2551.2,2026-05-22
+054145,45378,CPT,COLONOSCOPY,choice care network,inpatient,negotiated,2551.2,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Kaiser Permanente,outpatient,negotiated,2551.2,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Health Net,outpatient,negotiated,2551.2,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Kaiser Permanente,outpatient,negotiated,2551.2,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Cigna,outpatient,negotiated,2551.2,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Cigna,outpatient,negotiated,2551.2,2026-05-22
+050100,45378,CPT,COLONOSCOPY,choice care network,outpatient,negotiated,2551.2,2026-05-22
+059800,45378,CPT,COLONOSCOPY,interplan,inpatient,negotiated,2614.98,2026-05-22
+059800,45378,CPT,COLONOSCOPY,interplan,outpatient,negotiated,2614.98,2026-05-22
+054145,45378,CPT,COLONOSCOPY,interplan,outpatient,negotiated,2614.98,2026-05-22
+050222,45378,CPT,COLONOSCOPY,interplan,inpatient,negotiated,2614.98,2026-05-22
+050026,45378,CPT,COLONOSCOPY,interplan,inpatient,negotiated,2614.98,2026-05-22
+050222,45378,CPT,COLONOSCOPY,interplan,outpatient,negotiated,2614.98,2026-05-22
+050026,45378,CPT,COLONOSCOPY,interplan,outpatient,negotiated,2614.98,2026-05-22
+054145,45378,CPT,COLONOSCOPY,interplan,inpatient,negotiated,2614.98,2026-05-22
+050100,45378,CPT,COLONOSCOPY,interplan,outpatient,negotiated,2614.98,2026-05-22
+050100,45378,CPT,COLONOSCOPY,interplan,inpatient,negotiated,2614.98,2026-05-22
+059800,45378,CPT,COLONOSCOPY,maximum negotiated charge,inpatient,negotiated,3125.22,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,3125.22,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,inpatient,negotiated,3125.22,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,3125.22,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,3125.22,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,3125.22,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,inpatient,negotiated,3125.22,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,3125.22,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,inpatient,negotiated,3125.22,2026-05-22
+050222,45378,CPT,COLONOSCOPY,maximum negotiated charge,inpatient,negotiated,3125.22,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,inpatient,negotiated,3125.22,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,3125.22,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,inpatient,negotiated,3125.22,2026-05-22
+054145,45378,CPT,COLONOSCOPY,maximum negotiated charge,inpatient,negotiated,3125.22,2026-05-22
+050100,45378,CPT,COLONOSCOPY,maximum negotiated charge,inpatient,negotiated,3125.22,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,inpatient,negotiated,3125.22,2026-05-22
+050234,45378,CPT,COLONOSCOPY,maximum negotiated charge,inpatient,negotiated,3125.22,2026-05-22
+050026,45378,CPT,COLONOSCOPY,maximum negotiated charge,inpatient,negotiated,3125.22,2026-05-22
+050222,45378,CPT,COLONOSCOPY,,,gross,3189.0,2026-05-22
+050026,45378,CPT,COLONOSCOPY,,,gross,3189.0,2026-05-22
+054145,45378,CPT,COLONOSCOPY,,,gross,3189.0,2026-05-22
+050100,45378,CPT,COLONOSCOPY,,,gross,3189.0,2026-05-22
+059800,45378,CPT,COLONOSCOPY,,,gross,3189.0,2026-05-22
+050234,45378,CPT,COLONOSCOPY,,,gross,3189.0,2026-05-22
+050234,45378,CPT,COLONOSCOPY,optum health commercial,outpatient,negotiated,3760.82,2026-05-22
+050222,45378,CPT,COLONOSCOPY,optum health commercial,outpatient,negotiated,3760.82,2026-05-22
+050026,45378,CPT,COLONOSCOPY,optum health commercial,outpatient,negotiated,3760.82,2026-05-22
+054145,45378,CPT,COLONOSCOPY,optum health commercial,outpatient,negotiated,3760.82,2026-05-22
+059800,45378,CPT,COLONOSCOPY,optum health commercial,outpatient,negotiated,3760.82,2026-05-22
+050100,45378,CPT,COLONOSCOPY,optum health commercial,outpatient,negotiated,3760.82,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,3977.07,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,3977.07,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,3977.07,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,3977.07,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,3977.07,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,3977.07,2026-05-22
+059800,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,4366.0,2026-05-22
+054145,45378,CPT,COLONOSCOPY,maximum negotiated charge,outpatient,negotiated,4366.0,2026-05-22
+050222,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,4366.0,2026-05-22
+050026,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,4366.0,2026-05-22
+059800,45378,CPT,COLONOSCOPY,maximum negotiated charge,outpatient,negotiated,4366.0,2026-05-22
+050222,45378,CPT,COLONOSCOPY,maximum negotiated charge,outpatient,negotiated,4366.0,2026-05-22
+054145,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,4366.0,2026-05-22
+050100,45378,CPT,COLONOSCOPY,maximum negotiated charge,outpatient,negotiated,4366.0,2026-05-22
+050100,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,4366.0,2026-05-22
+050026,45378,CPT,COLONOSCOPY,maximum negotiated charge,outpatient,negotiated,4366.0,2026-05-22
+050234,45378,CPT,COLONOSCOPY,Blue Cross Blue Shield,outpatient,negotiated,4366.0,2026-05-22
+050234,45378,CPT,COLONOSCOPY,maximum negotiated charge,outpatient,negotiated,4366.0,2026-05-22
+052055,45378,CPT,Colonoscopy Terminated,,inpatient,min,932.05,2026-05-22
+052055,45378,CPT,Colonoscopy Terminated,Molina,inpatient,negotiated,932.05,2026-05-22
+052055,45378,CPT,Colonoscopy Terminated,america's choice,inpatient,negotiated,2609.75,2026-05-22
+052055,45378,CPT,Colonoscopy Terminated,quik trip,inpatient,negotiated,2796.16,2026-05-22
+052055,45378,CPT,Colonoscopy Terminated,velocity provider ppo network,inpatient,negotiated,2796.16,2026-05-22
+052055,45378,CPT,Colonoscopy Terminated,usa managed care organization,inpatient,negotiated,2796.16,2026-05-22
+052055,45378,CPT,Colonoscopy Terminated,,inpatient,max,3168.98,2026-05-22
+052055,45378,CPT,Colonoscopy Terminated,prime health services,inpatient,negotiated,3168.98,2026-05-22
+052055,45378,CPT,Colonoscopy Terminated,,inpatient,cash,3728.21,2026-05-22
+052055,45378,CPT,Colonoscopy Terminated,,inpatient,gross,3728.21,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,328.08,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,328.08,2026-05-22
+050444,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | allcare | all plans,,negotiated,347.39,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,347.39,2026-05-22
+050444,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,347.39,2026-05-22
+051319,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,413.44,2026-05-22
+051319,45378,CPT,DIAGNOSTIC COLONOSCOPY,Humana,,negotiated,413.44,2026-05-22
+051319,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,413.44,2026-05-22
+051319,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,413.44,2026-05-22
+051319,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,413.44,2026-05-22
+051319,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,413.44,2026-05-22
+051319,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,413.44,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,433.27,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,433.27,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,433.27,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,433.27,2026-05-22
+050444,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,474.3,2026-05-22
+050058,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,487.0,2026-05-22
+050058,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,487.0,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,508.17,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,508.17,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,508.18,2026-05-22
+051319,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,512.41,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,520.67,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,520.67,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,525.12,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,534.04,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,534.04,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,534.04,2026-05-22
+050150,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,534.04,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,534.04,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,534.04,2026-05-22
+050444,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,534.04,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,534.04,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,534.04,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,534.04,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,534.04,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,534.04,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,534.04,2026-05-22
+050107,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,534.04,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,534.04,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,534.04,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,534.04,2026-05-22
+050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,534.04,2026-05-22
+050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,534.04,2026-05-22
+050242,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,534.04,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,534.04,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,534.04,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,534.04,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,534.04,2026-05-22
+050444,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,534.04,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,534.04,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,534.04,2026-05-22
+050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,534.04,2026-05-22
+050616,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,534.04,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,534.04,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,534.04,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,534.04,2026-05-22
+050616,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,534.04,2026-05-22
+050016,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,534.04,2026-05-22
+050107,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,534.04,2026-05-22
+050150,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,534.04,2026-05-22
+050016,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,534.04,2026-05-22
+050242,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,534.04,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,534.04,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,534.04,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,534.04,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,534.04,2026-05-22
+050150,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,571.7,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,587.45,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,587.45,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,587.45,2026-05-22
+050042,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,588.64,2026-05-22
+050042,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,588.64,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,594.92,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,635.22,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,635.22,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,640.85,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,646.19,2026-05-22
+050016,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,646.19,2026-05-22
+050107,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,646.19,2026-05-22
+050242,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,646.19,2026-05-22
+050082,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,646.19,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,646.19,2026-05-22
+050082,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,646.19,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,646.19,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,646.19,2026-05-22
+050616,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,646.19,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,646.19,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,656.87,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,656.87,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,656.87,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,715.0,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,742.32,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,747.66,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,747.66,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,767.95,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,801.06,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,804.61,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,804.61,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,804.61,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,804.61,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,806.42,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,833.1,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,833.1,2026-05-22
+050082,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,870.49,2026-05-22
+050616,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,870.49,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,883.18,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | sbmg | all plans,,negotiated,883.18,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,897.62,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,931.51,2026-05-22
+050107,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | mhs hospice | all plans,,negotiated,931.9,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,941.15,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,941.15,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,941.15,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,941.15,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,941.15,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Humana,,negotiated,942.51,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,942.51,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,942.51,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,942.51,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,942.51,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,944.36,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,944.36,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Humana,,negotiated,944.36,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,944.36,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Cigna,,negotiated,948.73,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,948.73,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,948.73,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,948.73,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,948.73,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,948.73,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Humana,,negotiated,948.73,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,948.73,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,948.73,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,948.73,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Humana,,negotiated,948.73,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,950.59,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,950.59,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,951.26,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,954.0,2026-05-22
+050082,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | valley care ipa | all plans,,negotiated,963.21,2026-05-22
+050616,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | valley care ipa | all plans,,negotiated,963.21,2026-05-22
+050444,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,963.51,2026-05-22
+050444,45378,CPT,DIAGNOSTIC COLONOSCOPY,Humana,,negotiated,963.51,2026-05-22
+050444,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,963.51,2026-05-22
+050444,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,963.51,2026-05-22
+050444,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,963.51,2026-05-22
+050444,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,963.51,2026-05-22
+050042,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,964.55,2026-05-22
+050042,45378,CPT,DIAGNOSTIC COLONOSCOPY,Humana,,negotiated,964.55,2026-05-22
+050042,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,964.55,2026-05-22
+050042,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,964.55,2026-05-22
+050042,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,964.55,2026-05-22
+050042,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,964.55,2026-05-22
+050444,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,966.09,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,966.61,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,966.61,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,966.61,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,966.61,2026-05-22
+050058,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,992.79,2026-05-22
+050058,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,992.79,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Bright Health,,negotiated,1001.02,2026-05-22
+050016,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,1007.52,2026-05-22
+050082,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,1011.22,2026-05-22
+050082,45378,CPT,DIAGNOSTIC COLONOSCOPY,Humana,,negotiated,1011.22,2026-05-22
+050616,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,1011.22,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,1011.22,2026-05-22
+050082,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1011.22,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,1011.22,2026-05-22
+050616,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,1011.22,2026-05-22
+050616,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,1011.22,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,1011.22,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,Humana,,negotiated,1011.22,2026-05-22
+050082,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,1011.22,2026-05-22
+050082,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,1011.22,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1011.22,2026-05-22
+050616,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1011.22,2026-05-22
+050082,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,1011.22,2026-05-22
+050616,45378,CPT,DIAGNOSTIC COLONOSCOPY,Humana,,negotiated,1011.22,2026-05-22
+050616,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,1011.22,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | mhn | all plans,,negotiated,1013.65,2026-05-22
+050082,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,1013.65,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,1013.65,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,1013.65,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | hpn | all plans,,negotiated,1017.23,2026-05-22
+050107,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,1023.57,2026-05-22
+050107,45378,CPT,DIAGNOSTIC COLONOSCOPY,Humana,,negotiated,1023.57,2026-05-22
+050107,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,1023.57,2026-05-22
+050016,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,1023.57,2026-05-22
+050016,45378,CPT,DIAGNOSTIC COLONOSCOPY,Humana,,negotiated,1023.57,2026-05-22
+050107,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,1023.57,2026-05-22
+050016,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,1023.57,2026-05-22
+050016,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,1023.57,2026-05-22
+050016,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1023.57,2026-05-22
+050107,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1023.57,2026-05-22
+050042,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1025.36,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | ballards rehab | all plans,,negotiated,1036.76,2026-05-22
+050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,1056.72,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,1056.72,2026-05-22
+050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1056.72,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1056.72,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,1056.72,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1056.72,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1056.72,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,1056.72,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,1056.72,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1056.72,2026-05-22
+054123,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1060.48,2026-05-22
+050084,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified max],,max,1060.48,2026-05-22
+054123,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,1060.48,2026-05-22
+050084,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,1060.48,2026-05-22
+054123,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified max],,max,1060.48,2026-05-22
+050084,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,1060.48,2026-05-22
+054123,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified min],,min,1060.48,2026-05-22
+050084,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1060.48,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1068.08,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1068.08,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1073.42,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1073.42,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1073.42,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1073.42,2026-05-22
+050444,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1078.76,2026-05-22
+050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,1090.94,2026-05-22
+050150,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,1114.07,2026-05-22
+050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,1114.07,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,1114.07,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,1114.07,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,1114.07,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,1114.07,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,1114.07,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,1114.07,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,1114.07,2026-05-22
+050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,1120.59,2026-05-22
+050150,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,1120.59,2026-05-22
+050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,1120.59,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,1120.59,2026-05-22
+050150,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,1120.59,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,1120.59,2026-05-22
+050150,45378,CPT,DIAGNOSTIC COLONOSCOPY,Humana,,negotiated,1120.59,2026-05-22
+050150,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | hill physicians | all plans,,negotiated,1120.59,2026-05-22
+050150,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1120.59,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Humana,,negotiated,1120.59,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,1120.59,2026-05-22
+050150,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,1120.59,2026-05-22
+050150,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,1120.59,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | hill physicians | all plans,,negotiated,1120.59,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,1120.59,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | hill physicians | all plans,,negotiated,1120.59,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,1120.59,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,Humana,,negotiated,1120.59,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | hill physicians | all plans,,negotiated,1120.59,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | hill physicians | all plans,,negotiated,1120.59,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,1120.59,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,1120.59,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,1120.59,2026-05-22
+051319,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1137.51,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | la care | all plans,,negotiated,1138.48,2026-05-22
+050150,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1153.53,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1154.21,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1154.21,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1154.21,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1154.21,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | hcla | preferred ipa,,negotiated,1185.91,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,1185.91,2026-05-22
+050242,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,1189.14,2026-05-22
+050058,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | la care | exchange,,negotiated,1191.35,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,1197.57,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1197.57,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,1197.57,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,1197.57,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Cigna,,negotiated,1197.57,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,1197.57,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1197.57,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Cigna,,negotiated,1197.57,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Humana,,negotiated,1197.57,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Humana,,negotiated,1197.57,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,1197.57,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,1197.57,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,1197.57,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1211.72,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | jade medical group | all plans,,negotiated,1211.72,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,1211.72,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | mhn | all plans,,negotiated,1211.72,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | mhn | all plans,,negotiated,1211.72,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,1211.72,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | la care | all plans,,negotiated,1213.46,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,1220.52,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Cigna,,negotiated,1220.57,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Humana,,negotiated,1220.57,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,1220.57,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,1220.57,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,1220.57,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,1220.57,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1220.57,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,Bright Health,,negotiated,1225.48,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Bright Health,,negotiated,1225.48,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,1233.35,2026-05-22
+050242,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,1244.78,2026-05-22
+050242,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,1244.78,2026-05-22
+050242,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,1244.78,2026-05-22
+050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1254.99,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1254.99,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Kaiser Permanente,,negotiated,1279.96,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | brown toland | all plans,,negotiated,1281.6,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1317.33,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | epic health | all plans,,negotiated,1322.1,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | epic health | all plans,,negotiated,1322.1,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,1400.74,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,1517.97,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Health Net,,negotiated,1544.87,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1671.1,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1671.1,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1693.91,2026-05-22
+051319,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified max],,max,1693.91,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1693.91,2026-05-22
+050042,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1693.91,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1693.91,2026-05-22
+050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1693.91,2026-05-22
+051319,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1693.91,2026-05-22
+050042,45378,CPT,DIAGNOSTIC COLONOSCOPY,[de-identified max],,max,1693.91,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1693.91,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1698.25,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,1718.0,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | naphcare | all plans,,negotiated,1837.89,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,1837.89,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | naphcare | all plans,,negotiated,1850.02,2026-05-22
+050082,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicaid,,negotiated,1985.2,2026-05-22
+050616,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | clinicas | all plans,,negotiated,1985.2,2026-05-22
+050058,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,2166.82,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,2179.77,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Health Net,,negotiated,2181.1,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Health Net,,negotiated,2181.1,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Health Net,,negotiated,2196.94,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,2259.0,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,2272.0,2026-05-22
+050616,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,2321.0,2026-05-22
+050082,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,2321.0,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,2322.0,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,2346.34,2026-05-22
+050150,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,2390.0,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,2455.0,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,2527.0,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,2549.0,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,2553.75,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,2555.0,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,2596.0,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,2617.63,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,2683.0,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,2793.0,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,2824.0,2026-05-22
+050150,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,2849.0,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | oscar | exchange,,negotiated,2893.59,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | oscar | all plans,,negotiated,2893.59,2026-05-22
+050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,2908.0,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,2979.0,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,3019.0,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,3062.0,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,3113.0,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,3121.0,2026-05-22
+050107,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,3137.0,2026-05-22
+050016,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,3137.0,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,3142.0,2026-05-22
+050058,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,3143.82,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,3163.17,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,3175.0,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,Cigna,,negotiated,3181.0,2026-05-22
+050616,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,3232.0,2026-05-22
+050082,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,3232.0,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,First Health,,negotiated,3269.0,2026-05-22
+050116,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,3269.0,2026-05-22
+050150,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,3286.37,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,3290.91,2026-05-22
+050058,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,3307.0,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,3321.0,2026-05-22
+050107,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,3323.0,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,3325.0,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,3335.0,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,3379.0,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,3393.68,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Medicare,,negotiated,3472.95,2026-05-22
+050150,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,3561.0,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,3578.99,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,3589.0,2026-05-22
+050107,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,3635.0,2026-05-22
+050016,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,3635.0,2026-05-22
+050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,3640.91,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,3655.0,2026-05-22
+050444,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,3685.0,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,3712.0,2026-05-22
+050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,3735.0,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Cigna,,negotiated,3736.0,2026-05-22
+050242,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | sutter health | all plans,,negotiated,3757.44,2026-05-22
+050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,3777.28,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,3795.5,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,commercial | sutter health | all plans,,negotiated,3820.23,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,3856.0,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,3957.0,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,3962.0,2026-05-22
+050616,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,3989.0,2026-05-22
+050082,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,3989.0,2026-05-22
+050058,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,3995.0,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,4000.0,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,4015.0,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,4052.09,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Cigna,,negotiated,4079.0,2026-05-22
+050242,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,4111.0,2026-05-22
+050016,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,4156.0,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,4187.0,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,4207.0,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,4242.0,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,4296.0,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,4323.19,2026-05-22
+050058,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,4328.0,2026-05-22
+050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,4329.0,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,Cigna,,negotiated,4340.0,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,Cigna,,negotiated,4340.0,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,Cigna,,negotiated,4340.0,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Cigna,,negotiated,4340.0,2026-05-22
+050150,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,4340.9,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,4352.0,2026-05-22
+050089,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,4390.0,2026-05-22
+050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,4482.0,2026-05-22
+050616,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,4482.44,2026-05-22
+050082,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,4482.44,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,4518.0,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,4544.0,2026-05-22
+050444,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,4653.0,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,4676.0,2026-05-22
+050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,4792.8,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,4816.0,2026-05-22
+050444,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,4818.19,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,4826.69,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,4836.0,2026-05-22
+050107,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,4849.17,2026-05-22
+050016,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,4849.17,2026-05-22
+050150,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,4863.63,2026-05-22
+050017,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,4870.25,2026-05-22
+050016,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,4871.0,2026-05-22
+050107,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,4871.0,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,4912.65,2026-05-22
+050036,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,5011.0,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,5025.0,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,5028.38,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,5092.94,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,5117.19,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,5165.57,2026-05-22
+050300,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,5237.0,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,5307.15,2026-05-22
+050197,45378,CPT,DIAGNOSTIC COLONOSCOPY,Cigna,,negotiated,5316.0,2026-05-22
+050129,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,5353.0,2026-05-22
+050590,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,5364.05,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,5435.0,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,First Health,,negotiated,5435.0,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,5591.0,2026-05-22
+050516,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,5600.0,2026-05-22
+050242,45378,CPT,DIAGNOSTIC COLONOSCOPY,Anthem BCBS,,negotiated,5602.0,2026-05-22
+050242,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,5603.0,2026-05-22
+050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,5622.73,2026-05-22
+050616,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,5632.0,2026-05-22
+050082,45378,CPT,DIAGNOSTIC COLONOSCOPY,Health Net,,negotiated,5632.0,2026-05-22
+050082,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,5632.0,2026-05-22
+050457,45378,CPT,DIAGNOSTIC COLONOSCOPY,Aetna,,negotiated,5637.0,2026-05-22
+050152,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,5664.8,2026-05-22
+050127,45378,CPT,DIAGNOSTIC COLONOSCOPY,UnitedHealthcare,,negotiated,5722.0,2026-05-22
+050414,45378,CPT,DIAGNOSTIC COLONOSCOPY,Blue Cross Blue Shield,,negotiated,5761.03,2026-05-22
