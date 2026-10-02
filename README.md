@@ -138,6 +138,10 @@ Open the Snowflake UI and install the following free listings from the Marketpla
    - Go to the link above (or search "NPPES" in the Marketplace)
    - Click **Get** to install the shared database `AFFINE_NPPES_PROVIDER_DATA` into your account
    
+2. **Healthparse Hospital Price Transparency Rates** — [Marketplace listing](https://app.snowflake.com/marketplace/listing/GZT1Z4WB6KD)
+   - Search "Healthparse" in the Marketplace
+   - Click **Get** to install the shared database `HEALTHPARSE_HOSPITAL_PRICE_TRANSPARENCY_RATES`
+
 ### 2. Run the database setup script
 Open a Snowsight worksheet (or any SQL client connected to your account) and execute the full contents of:
 
