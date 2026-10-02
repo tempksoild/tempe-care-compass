@@ -24,10 +24,12 @@ if CSS_FILE.exists():
 
 st.html(
     '<header class="hero">'
-    "<small>PUBLIC-DATA CARE NAVIGATION</small>"
     "<h1>Tempe Care Compass</h1>"
     "<p>Find provider-directory leads and compare hospital prices before you call.</p>"
     "</header>"
+)
+
+st.html(
     '<div class="warn"><b>Not medical advice.</b> Call 911 for a life-threatening emergency. '
     "Directory data does not prove affordability or availability. Published prices are not final costs.</div>"
 )

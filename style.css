@@ -41,15 +41,15 @@ html, body, [class*="css"], .stApp {
 }
 
 .block-container {
-  max-width: 1180px;
-  padding-top: 1.5rem;
-  padding-bottom: 3.5rem;
+    max-width: 1180px;
+    padding-top: 0rem !important;
+    margin-top: 0rem !important;
+    padding-bottom: 3.5rem;
 }
 
 /* Streamlit Header Bar (Fix dark bar at top) */
 header[data-testid="stHeader"] {
-  background-color: var(--bg-primary) !important;
-  border-bottom: 1px solid var(--border-subtle) !important;
+    display: none !important;
 }
 
 header[data-testid="stHeader"] button,
@@ -72,9 +72,10 @@ h1, h2, h3, h4, h5, h6,
    Hero Section
    ========================================================================== */
 .hero {
-  border-bottom: 1px solid var(--border-subtle);
-  padding-bottom: 1.15rem;
-  margin-bottom: 0.85rem;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 1rem;
+    padding-top: 0.5rem !important;
+    margin-top: 0rem !important;
 }
 
 .hero small {
@@ -178,6 +179,23 @@ div[data-testid="stRadio"] input:checked + div > div {
 [data-testid="stSidebar"] hr {
   border-color: var(--border-subtle) !important;
   margin: 1.25rem 0 !important;
+}
+
+[data-testid="stDecoration"] {
+    display: none;
+}
+
+[data-testid="stHeader"] {
+    background-color: transparent;
+}
+
+/*target the Streamlit wrapper, make it stick permanently */
+div[data-testid="stElementContainer"]:has(.hero),
+div[data-testid="stHtml"]:has(.hero) {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background-color: var(--bg-primary); 
 }
 
 /* ==========================================================================
