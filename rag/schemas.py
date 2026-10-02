@@ -1,4 +1,4 @@
-# rag/schemas.py — Shared data models for the Top-3 ranking pipeline.
+            # rag/schemas.py — Shared data models for the Top-3 ranking pipeline.
 #
 # Unknown-sensitive facts use EvidenceState instead of bool so that
 # "not known" is never confused with "verified no".

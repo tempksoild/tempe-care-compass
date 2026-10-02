@@ -4,6 +4,7 @@
 #   SnowflakeRepository — executes parameterized SQL against CARE_AI.CURATED.*
 #
 # Both expose the same interface:
+#   all_providers()                           -> list[dict]  (full corpus + source_id, for rag/)
 #   search(category, zip_code, query, limit)  -> list[dict]  (provider records)
 #   search_prices(procedure, limit)           -> list[dict]  (hospital pricing rows)
 #   get_price_comparison()                    -> list[dict]  (aggregated price spreads)
@@ -14,6 +15,12 @@ import pandas as pd
 
 
 class DemoRepository:
+    def all_providers(self):
+        """Full provider table with stable source_ids (RAG retrieval corpus)."""
+        from rag.citations import attach_source_ids
+        df = pd.read_csv(Path(__file__).parent / "data/tempe_nppes_demo.csv", dtype=str).fillna("")
+        return attach_source_ids(df.to_dict("records"), kind="provider")
+
     def search(self, category="All", zip_code="", query="", limit=50):
         df = pd.read_csv(Path(__file__).parent / "data/tempe_nppes_demo.csv", dtype=str).fillna("")
         if category != "All": df = df[df.category == category]
@@ -110,6 +117,18 @@ class SnowflakeRepository:
             query, f"%{query}%", f"%{query}%",
             int(limit),
         ))
+
+    def all_providers(self):
+        """Full provider table with stable source_ids (RAG retrieval corpus)."""
+        from rag.citations import attach_source_ids
+        sql = """
+            SELECT NPI, NAME, CATEGORY, SPECIALTY, ADDRESS, CITY, STATE, ZIP,
+                   PHONE, LAST_UPDATED, AFFORDABILITY, SOURCE
+            FROM CARE_AI.CURATED.TEMPE_PROVIDERS
+            ORDER BY NAME
+        """
+        rows = [{k: ("" if v is None else str(v)) for k, v in r.items()} for r in self._query(sql)]
+        return attach_source_ids(rows, kind="provider")
 
     def search_prices(self, procedure="", limit=20):
         sql = """
