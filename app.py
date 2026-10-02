@@ -85,7 +85,7 @@ with tab_dir:
             f'<span class="badge">{row.get("category", "Care")}</span>'
             f'<h3>{row.get("name", "Unnamed")}</h3>'
             f'<div class="meta">{row.get("specialty", "")}<br>{addr}<br>{phone_display}</div>'
-            f'<small>Affordability: {row.get("affordability", "Unknown\u2014call to verify")} &middot; Updated: {row.get("last_updated", "Unknown")}</small><br>'
+            f'<small>Affordability: {row.get("affordability", "Unknown—call to verify")} &middot; Updated: {row.get("last_updated", "Unknown")}</small><br>'
             f'<a href="{maps}" target="_blank" rel="noopener noreferrer">Directions ↗</a>'
             f"</article>"
         )
