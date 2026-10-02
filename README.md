@@ -18,7 +18,6 @@ tempe-care-compass/
 ├── app.py                  # Streamlit UI entry point — run with: streamlit run app.py
 ├── agent.py                # AI chatbot logic (Ollama + Cortex backends, intent parsing, grounded responses)
 ├── repository.py           # Data access layer (Demo CSV + Snowflake SQL for providers and prices)
-├── requirements.txt        # Python dependencies
 ├── .env.example            # Environment variable template (copy to .env and fill in credentials)
 ├── data/
 │   ├── tempe_nppes_demo.csv    # 280-row NPPES provider snapshot for demo mode
@@ -78,12 +77,50 @@ Both expose identical methods: `search()`, `search_prices()`, and `get_price_com
 | Verified programs | Manual curation (HRSA, 211) | Tempe-area only |
 
 ## Run locally (demo mode)
+This project uses [uv](https://docs.astral.sh/uv/) to manage Python and dependencies.
+
+### 1. Install uv
+macOS:
 ```bash
-python -m venv .venv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# or: brew install uv
+```
+Windows (PowerShell):
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+# or: winget install --id=astral-sh.uv -e
+```
+
+### 2. Create the virtual environment and install libraries
+macOS:
+```bash
+uv venv --python 3.11
 source .venv/bin/activate
-pip install -r requirements.txt
+uv pip install "streamlit>=1.40,<2" "pandas>=2.2,<3" "requests>=2.32,<3" \
+  "snowflake-connector-python[pandas]>=3.12,<4" "pydantic>=2.9,<3" "python-dotenv>=1.0,<2"
 cp .env.example .env
-streamlit run app.py
+```
+Windows (PowerShell):
+```powershell
+uv venv --python 3.11
+.venv\Scripts\Activate.ps1
+uv pip install "streamlit>=1.40,<2" "pandas>=2.2,<3" "requests>=2.32,<3" `
+  "snowflake-connector-python[pandas]>=3.12,<4" "pydantic>=2.9,<3" "python-dotenv>=1.0,<2"
+Copy-Item .env.example .env
+```
+
+| Library | Purpose |
+|---|---|
+| `streamlit` | Web UI |
+| `pandas` | Demo CSV loading and data frames |
+| `requests` | Ollama HTTP calls |
+| `snowflake-connector-python[pandas]` | Snowflake queries and Cortex calls |
+| `pydantic` | Intent/response models |
+| `python-dotenv` | Loads `.env` credentials |
+
+### 3. Run the app
+```bash
+uv run streamlit run app.py
 ```
 Optional local AI:
 ```bash
@@ -95,9 +132,22 @@ The deterministic fallback works when both Ollama and Cortex are unavailable.
 ## Snowflake setup
 1. Install **Affine NPPES Provider Data** from Snowflake Marketplace.
 2. Install **Healthparse Hospital Price Transparency Rates** from Snowflake Marketplace.
-3. Run `sql/01_curate_providers.sql` to create the CARE_AI database, dynamic table, views, and pricing pipeline.
-4. Configure `.env` with your Snowflake credentials (`SNOWFLAKE_ACCOUNT`, `SNOWFLAKE_USER`, `SNOWFLAKE_PASSWORD`).
-5. Select **Snowflake** as data source and **Cortex** as AI backend in the app sidebar.
+3. Run `sql/01_curate_providers.sql` in a Snowsight worksheet to create the CARE_AI database, dynamic table, views, and pricing pipeline.
+4. Make sure the Snowflake libraries are installed in your uv environment (included in step 2 above). To add them on their own:
+   ```bash
+   uv pip install "snowflake-connector-python[pandas]>=3.12,<4" "python-dotenv>=1.0,<2"
+   ```
+5. Fill in `.env` with your Snowflake credentials:
+   ```
+   SNOWFLAKE_ACCOUNT=<org>-<account>
+   SNOWFLAKE_USER=<user>
+   SNOWFLAKE_PASSWORD=<password>
+   ```
+6. Verify the connection (works on macOS and Windows):
+   ```bash
+   uv run python -c "import os, snowflake.connector as sf; from dotenv import load_dotenv; load_dotenv(); c=sf.connect(account=os.environ['SNOWFLAKE_ACCOUNT'], user=os.environ['SNOWFLAKE_USER'], password=os.environ['SNOWFLAKE_PASSWORD']); print(c.cursor().execute('select current_version()').fetchone())"
+   ```
+7. Run `uv run streamlit run app.py` and select **Snowflake** as data source and **Cortex** as AI backend in the sidebar.
 
 ## Snowflake objects created
 | Object | Type | Description |
@@ -115,8 +165,8 @@ The deterministic fallback works when both Ollama and Cortex are unavailable.
 
 ## Tests
 ```bash
-python scripts/check_data.py
-python -m py_compile app.py agent.py repository.py
+uv run python scripts/check_data.py
+uv run python -m py_compile app.py agent.py repository.py
 ```
 
 ## Sources
