@@ -5,6 +5,7 @@
 # care type, ZIP, keyword, and result limit.
 
 import os
+from pathlib import Path
 from urllib.parse import quote_plus
 import streamlit as st
 from dotenv import load_dotenv
@@ -14,32 +15,18 @@ from repository import DemoRepository, SnowflakeRepository
 load_dotenv()
 st.set_page_config(page_title="Tempe Care Compass", page_icon="✚", layout="wide")
 
-st.markdown("""<style>
-@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap');
-html,body,[class*=css]{font-family:Satoshi,sans-serif}
-.stApp{background:#f6f4ed}
-.block-container{max-width:1180px;padding-top:2rem}
-.hero{border-bottom:1px solid #d8d5ca;padding-bottom:1rem}
-.hero h1{font-size:2.15rem;margin:.2rem 0}
-.hero p{color:#5f6d69}
-.card{background:#fffdf8;border:1px solid #d8d5ca;border-radius:12px;padding:1rem;margin:.65rem 0}
-.card h3{margin:.2rem 0}
-.meta{color:#5f6d69}
-.badge{background:#dcebe7;color:#075a55;border-radius:999px;padding:.2rem .55rem;font-size:.75rem;font-weight:700}
-.warn{background:#fff4dd;border:1px solid #d9b86f;border-radius:10px;padding:.8rem 1rem;margin:1rem 0}
-.price-high{color:#c0392b;font-weight:700}
-.price-low{color:#075a55;font-weight:700}
-</style>""", unsafe_allow_html=True)
+CSS_FILE = Path(__file__).parent / "style.css"
+if CSS_FILE.exists():
+    st.html(CSS_FILE)
 
-st.markdown(
+st.html(
     '<header class="hero">'
     "<small>PUBLIC-DATA CARE NAVIGATION</small>"
     "<h1>Tempe Care Compass</h1>"
     "<p>Find provider-directory leads and compare hospital prices before you call.</p>"
     "</header>"
     '<div class="warn"><b>Not medical advice.</b> Call 911 for a life-threatening emergency. '
-    "Directory data does not prove affordability or availability. Published prices are not final costs.</div>",
-    unsafe_allow_html=True,
+    "Directory data does not prove affordability or availability. Published prices are not final costs.</div>"
 )
 
 # --- Sidebar ---
@@ -93,15 +80,14 @@ with tab_dir:
         addr = ", ".join(x for x in [row.get("address", ""), row.get("city", ""), row.get("state", ""), row.get("zip", "")] if x)
         maps = "https://www.google.com/maps/search/?api=1&query=" + quote_plus(addr)
         phone_display = row.get("phone", "") or "Phone not listed"
-        st.markdown(
+        st.html(
             f'<article class="card">'
             f'<span class="badge">{row.get("category", "Care")}</span>'
             f'<h3>{row.get("name", "Unnamed")}</h3>'
             f'<div class="meta">{row.get("specialty", "")}<br>{addr}<br>{phone_display}</div>'
             f'<small>Affordability: {row.get("affordability", "Unknown\u2014call to verify")} &middot; Updated: {row.get("last_updated", "Unknown")}</small><br>'
             f'<a href="{maps}" target="_blank" rel="noopener noreferrer">Directions ↗</a>'
-            f"</article>",
-            unsafe_allow_html=True,
+            f"</article>"
         )
 
 # --- Tab 2: Price Comparison ---
@@ -129,15 +115,14 @@ with tab_prices:
             elif cash_min:
                 cash_line = f'<br>Cash/self-pay: <span class="price-low">${cash_min:,.0f}</span>'
 
-            st.markdown(
+            st.html(
                 f'<article class="card">'
                 f"<h3>{desc}</h3>"
                 f'<div class="meta">Across {n_hospitals} hospitals</div>'
                 f'<span class="price-low">${min_p:,.0f}</span> – <span class="price-high">${max_p:,.0f}</span> '
                 f"(avg ${avg_p:,.0f}, spread ${spread:,.0f})"
                 f"{cash_line}"
-                f"</article>",
-                unsafe_allow_html=True,
+                f"</article>"
             )
 
     st.divider()
@@ -146,15 +131,14 @@ with tab_prices:
         price_results = r.search_prices(proc_search, limit=20)
         if price_results:
             for pr in price_results:
-                st.markdown(
+                st.html(
                     f'<article class="card">'
                     f'<span class="badge">{pr.get("rate_type", "rate")}</span> '
                     f'<span class="badge">{pr.get("billing_code_type", "")}: {pr.get("billing_code", "")}</span>'
                     f'<h3>{pr.get("billing_code_description", "")}</h3>'
                     f'<div class="meta">Hospital CCN: {pr.get("ccn", "N/A")} &middot; Payer: {pr.get("payer_name", "N/A")}</div>'
                     f'<b>${float(pr.get("rate_amount", 0)):,.2f}</b>'
-                    f"</article>",
-                    unsafe_allow_html=True,
+                    f"</article>"
                 )
         else:
             st.info("No price data found for that procedure.")
