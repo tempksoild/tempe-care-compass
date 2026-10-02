@@ -236,6 +236,9 @@ def sort_key(p: RankedProvider):
     return (
         -s.total,
         -s.service_match,
+        # "Shortest verified distance": compare the proximity score first so a same-ZIP
+        # match (no miles, score 90) is not treated as infinitely far, then miles.
+        -(s.proximity if s.proximity is not None else -1),
         s.distance_miles if s.distance_miles is not None else float("inf"),
         -FINANCIAL_PRIORITY.get(s.financial_evidence_state, 1),
         -s.confidence,
