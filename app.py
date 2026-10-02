@@ -41,7 +41,9 @@ except ImportError:
             return None
         return providers[0]
 
+from html import escape
 from geocoding import geocode_address
+from rag.service import ProviderRecommendationService
 from repository import DemoRepository, SnowflakeRepository
 
 load_dotenv()
@@ -98,6 +100,90 @@ def get_agent(backend, repo_instance):
     if backend == "Cortex (Snowflake)" and hasattr(repo_instance, "con"):
         return CortexAgent(repo_instance.con)
     return None
+
+
+@st.cache_resource
+def get_service(m):
+    """Top-3 ranking service; the provider corpus is indexed once per data source."""
+    return ProviderRecommendationService(get_repo(m))
+
+
+def render_location_map(provider_addr: dict):
+    coords = geocode_address(
+        address=provider_addr.get("address", ""),
+        city=provider_addr.get("city", "Tempe"),
+        state=provider_addr.get("state", "AZ"),
+        zip_code=provider_addr.get("zip", ""),
+    )
+    map_df = pd.DataFrame([{"latitude": coords["latitude"], "longitude": coords["longitude"]}])
+    st.subheader("Location Pinpoint")
+    st.caption(f"📍 {coords['formatted_address']} &middot; Coordinates: {coords['latitude']:.4f}° N, {abs(coords['longitude']):.4f}° W (via {coords['source']})")
+    st.map(map_df, latitude="latitude", longitude="longitude", zoom=14, color="#075a55")
+
+
+def render_top_three(result):
+    """Render a rag.schemas.TopProviderResponse: A/B/C cards + code-ranked explanations."""
+    if result.emergency:
+        st.error(result.limitations[0])
+        return
+    if not result.providers:
+        st.info(result.limitations[0] if result.limitations else "No matching providers were found.")
+        return
+
+    st.subheader(f"Top {len(result.providers)} providers")
+    st.caption(f"Understood as: {result.query_understood_as} · Ranked by: {', '.join(result.ranking_basis)}")
+    explanations = {e.source_id: e for e in result.explanations}
+    retriever = get_service(mode).retriever
+
+    for p in result.providers:
+        e = explanations.get(p.source_id)
+        rec = retriever.record(p.source_id) or {}
+        maps = "https://www.google.com/maps/search/?api=1&query=" + quote_plus(p.address)
+        border = ' style="border: 2px solid var(--teal-primary);"' if p.rank == "A" else ""
+        heading = e.heading if e else f"{p.rank}"
+        st.html(
+            f'<article class="card"{border}>'
+            f'<span class="badge">{escape(p.rank or "")}</span> '
+            f'<span class="badge">{escape(p.category)}</span>'
+            f'<h3>{escape(p.name)}</h3>'
+            f'<div class="meta">{escape(p.specialty)}<br>{escape(p.address)}<br>📞 {escape(p.phone or "Phone not listed")}</div>'
+            f'<small>{escape(heading)} &middot; Ranking score {p.scores.total:g}/100</small><br>'
+            f'<a href="{escape(maps)}" target="_blank" rel="noopener noreferrer">Directions ↗</a>'
+            f'</article>'
+        )
+        if e:
+            ordinal = {"A": "first", "B": "second", "C": "third"}[p.rank]
+            lines = [f"**Why {p.rank} ranks {ordinal}:**",
+                     f"- Service match: {e.service_explanation}",
+                     f"- Location: {e.proximity_explanation}",
+                     f"- Price or affordability: {e.financial_explanation}"]
+            if e.important_unknowns:
+                lines.append(f"- Important unknowns: {'; '.join(e.important_unknowns)}")
+            if e.comparison_to_next:
+                nxt = RANK_NEXT.get(p.rank)
+                lines += ["", f"**Why {p.rank} ranks above {nxt}:** {e.comparison_to_next}"]
+            st.markdown("\n".join(lines))
+            st.caption("Sources: " + ", ".join(e.citation_source_ids))
+        if p.rank == "A" and rec:
+            render_location_map(rec)
+
+    if result.ranking_disclaimer:
+        st.caption(result.ranking_disclaimer)
+    for note in result.limitations:
+        st.caption(f"ℹ️ {note}")
+    with st.expander("How this ranking was calculated"):
+        st.dataframe(pd.DataFrame([{
+            "Rank": p.rank, "Provider": p.name, "Total": p.scores.total,
+            "Service": p.scores.service_match, "Location": p.scores.proximity,
+            "Price/afford.": p.scores.financial, "Confidence": p.scores.confidence,
+            "Availability": p.scores.availability, "Distance (mi)": p.scores.distance_miles,
+            "Location method": p.scores.distance_method,
+        } for p in result.providers]), hide_index=True, use_container_width=True)
+        st.caption(f"Explanations written by: {'Snowflake Cortex' if result.explanation_source == 'llm' else 'deterministic template'}. "
+                   "The order is always computed by code, never by the AI model.")
+
+
+RANK_NEXT = {"A": "B", "B": "C"}
 
 
 # --- Data fetch ---
@@ -183,58 +269,11 @@ with tab_ai:
                     st.caption(f"📍 {coords['formatted_address']} &middot; Coordinates: {coords['latitude']:.4f}° N, {abs(coords['longitude']):.4f}° W (via {coords['source']})")
                     st.map(map_df, latitude="latitude", longitude="longitude", zoom=14, color="#075a55")
 
-            else:
-                # Provider search inquiry
-                candidate_rows = r.search(
-                    category=intent.category,
-                    zip_code=intent.zip_code or "",
-                    query=intent.procedure or (" ".join(intent.keywords) if intent.keywords else ""),
-                    limit=50,
-                )
-                if not candidate_rows:
-                    candidate_rows = [row for row in rows if intent.category == "All" or row.get("category") == intent.category] or rows
-
-                best_provider = select_best_provider(q, candidate_rows, intent=intent)
-
-                if not best_provider:
-                    st.info("No matching directory records were found. Broaden your search or call 211 for resource navigation.")
-                else:
-                    if agent and hasattr(agent, "explain_one"):
-                        explanation = agent.explain_one(q, best_provider)
-                    else:
-                        explanation = _fallback_explain_one(q, best_provider)
-
-                    st.subheader("Top Recommendation")
-                    st.write(explanation)
-
-                    addr = ", ".join(x for x in [best_provider.get("address", ""), best_provider.get("city", ""), best_provider.get("state", ""), best_provider.get("zip", "")] if x)
-                    maps = "https://www.google.com/maps/search/?api=1&query=" + quote_plus(addr)
-                    phone_display = best_provider.get("phone", "") or "Phone not listed"
-
-                    st.html(
-                        f'<article class="card" style="border: 2px solid var(--teal-primary);">'
-                        f'<span class="badge">{best_provider.get("category", "Care")}</span> '
-                        f'<span class="badge" style="background:#e8f4f1; color:#075a55;">⭐ Most Relevant Choice</span>'
-                        f'<h3>{best_provider.get("name", "Unnamed")}</h3>'
-                        f'<div class="meta">{best_provider.get("specialty", "")}<br>{addr}<br>📞 {phone_display}</div>'
-                        f'<small>Affordability: {best_provider.get("affordability", "Unknown — call to verify")} &middot; Updated: {best_provider.get("last_updated", "Unknown")}</small><br>'
-                        f'<a href="{maps}" target="_blank" rel="noopener noreferrer">Directions ↗</a>'
-                        f'</article>'
-                    )
-
-                    coords = geocode_address(
-                        address=best_provider.get("address", ""),
-                        city=best_provider.get("city", "Tempe"),
-                        state=best_provider.get("state", "AZ"),
-                        zip_code=best_provider.get("zip", ""),
-                    )
-                    map_df = pd.DataFrame([{
-                        "latitude": coords["latitude"],
-                        "longitude": coords["longitude"],
-                    }])
-                    st.subheader("Location Pinpoint")
-                    st.caption(f"📍 {coords['formatted_address']} &middot; Coordinates: {coords['latitude']:.4f}° N, {abs(coords['longitude']):.4f}° W (via {coords['source']})")
-                    st.map(map_df, latitude="latitude", longitude="longitude", zoom=14, color="#075a55")
+            elif not intent.emergency:
+                # Provider search inquiry: retrieval -> filter -> deterministic rank -> A/B/C explanation
+                with st.spinner("Ranking providers..."):
+                    result = get_service(mode).recommend(q, agent=agent)
+                render_top_three(result)
 
     with st.expander("Questions to ask when calling"):
         st.markdown(

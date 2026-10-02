@@ -93,3 +93,5 @@ class TopProviderResponse(BaseModel):
     limitations: list[str] = Field(default_factory=list)
     emergency: bool = False
     eliminated_by: dict[str, int] = Field(default_factory=dict)
+    explanation_source: str = "template"     # "llm" | "template"
+    ranking_disclaimer: str = ""

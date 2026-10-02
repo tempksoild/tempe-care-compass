@@ -188,8 +188,16 @@ class ProviderRetriever:
     def _load(self, refresh: bool = False):
         if self._records is None or refresh:
             self._records = self.repo.all_providers()
+            self.__dict__.pop("_by_id", None)
             self._bm25 = _BM25([tokenize(provider_text(r)) for r in self._records])
             self._tri = _TrigramIndex([service_text(r) for r in self._records])
+
+    def record(self, source_id: str) -> dict | None:
+        """Raw provider record (address/city/zip for maps) by source_id."""
+        self._load()
+        if not hasattr(self, "_by_id"):
+            self._by_id = {r["source_id"]: r for r in self._records}
+        return self._by_id.get(source_id)
 
     def lexical_search(self, terms: list[str], top_k: int) -> list[tuple[int, float]]:
         if not terms:
