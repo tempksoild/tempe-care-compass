@@ -1,0 +1,445 @@
+/* style.css — Comprehensive High-Contrast Stylesheet for Tempe Care Compass UI */
+
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap');
+
+:root {
+  --bg-primary: #f6f4ed;
+  --bg-sidebar: #ece7db;
+  --bg-card: #ffffff;
+  --bg-input: #ffffff;
+  --border-subtle: #d6d2c4;
+  --border-input: #c7c2b3;
+  --border-card-hover: #8fb9b0;
+  --text-main: #14211d;
+  --text-muted: #4e5f5a;
+  --text-subtle: #6c7d78;
+  --teal-primary: #075a55;
+  --teal-hover: #043f3b;
+  --teal-soft: #d8eae5;
+  --teal-border: rgba(7, 90, 85, 0.28);
+  --warn-bg: #fff6e5;
+  --warn-border: #dfbe7b;
+  --warn-accent: #b37d14;
+  --warn-text: #3e2e0a;
+  --price-high: #b82b1d;
+  --price-low: #075a55;
+  --shadow-sm: 0 2px 6px rgba(18, 30, 26, 0.05);
+  --shadow-md: 0 8px 22px rgba(7, 90, 85, 0.1);
+  --radius-card: 12px;
+  --radius-pill: 999px;
+  --radius-sm: 8px;
+}
+
+/* ==========================================================================
+   Base App Layout & Typography
+   ========================================================================== */
+html, body, [class*="css"], .stApp {
+  font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  color: var(--text-main) !important;
+  background-color: var(--bg-primary) !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+.block-container {
+  max-width: 1180px;
+  padding-top: 1.5rem;
+  padding-bottom: 3.5rem;
+}
+
+/* Streamlit Header Bar (Fix dark bar at top) */
+header[data-testid="stHeader"] {
+  background-color: var(--bg-primary) !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+}
+
+header[data-testid="stHeader"] button,
+header[data-testid="stHeader"] a,
+header[data-testid="stHeader"] span {
+  color: var(--text-main) !important;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6,
+[data-testid="stHeadingWithActionElements"] h1,
+[data-testid="stHeadingWithActionElements"] h2,
+[data-testid="stHeadingWithActionElements"] h3 {
+  color: var(--text-main) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+}
+
+/* ==========================================================================
+   Hero Section
+   ========================================================================== */
+.hero {
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 1.15rem;
+  margin-bottom: 0.85rem;
+}
+
+.hero small {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--teal-primary);
+  background-color: var(--teal-soft);
+  border: 1px solid var(--teal-border);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.4rem;
+}
+
+.hero h1 {
+  font-size: 2.35rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-main);
+  margin: 0.25rem 0 0.35rem 0;
+  line-height: 1.15;
+}
+
+.hero p {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* ==========================================================================
+   Advisory Notice / Warning Banner
+   ========================================================================== */
+.warn {
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  border-left: 4px solid var(--warn-accent);
+  border-radius: 10px;
+  padding: 0.95rem 1.25rem;
+  margin: 1.15rem 0 1.35rem 0;
+  color: var(--warn-text);
+  font-size: 0.94rem;
+  line-height: 1.5;
+  box-shadow: 0 1px 4px rgba(179, 125, 20, 0.07);
+}
+
+.warn b {
+  color: #261b02;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Sidebar Styling (Fix invisible text & washed-out controls)
+   ========================================================================== */
+[data-testid="stSidebar"] {
+  background-color: var(--bg-sidebar) !important;
+  border-right: 1px solid var(--border-subtle) !important;
+}
+
+[data-testid="stSidebar"] *,
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] div {
+  color: var(--text-main) !important;
+}
+
+/* Widget Labels */
+label[data-testid="stWidgetLabel"],
+label[data-testid="stWidgetLabel"] p,
+label[data-testid="stWidgetLabel"] span {
+  font-weight: 600 !important;
+  font-size: 0.92rem !important;
+  color: var(--text-main) !important;
+  margin-bottom: 0.25rem !important;
+}
+
+/* Radio buttons in sidebar */
+div[data-testid="stRadio"] label p,
+div[data-testid="stRadio"] label span {
+  color: var(--text-main) !important;
+  font-weight: 500 !important;
+  font-size: 0.92rem !important;
+}
+
+div[data-testid="stRadio"] div[role="radiogroup"] {
+  gap: 0.35rem !important;
+}
+
+/* Radio button active dot */
+div[data-testid="stRadio"] input:checked + div {
+  border-color: var(--teal-primary) !important;
+}
+div[data-testid="stRadio"] input:checked + div > div {
+  background-color: var(--teal-primary) !important;
+}
+
+/* Divider in sidebar */
+[data-testid="stSidebar"] hr {
+  border-color: var(--border-subtle) !important;
+  margin: 1.25rem 0 !important;
+}
+
+/* ==========================================================================
+   Inputs, Textarea & Selectbox Styling (Clean white boxes with dark text)
+   ========================================================================== */
+div[data-baseweb="input"],
+div[data-baseweb="base-input"],
+div[data-baseweb="select"] > div,
+div[data-baseweb="textarea"] {
+  background-color: var(--bg-input) !important;
+  border: 1px solid var(--border-input) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--text-main) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+div[data-baseweb="input"]:focus-within,
+div[data-baseweb="base-input"]:focus-within,
+div[data-baseweb="select"]:focus-within > div,
+div[data-baseweb="textarea"]:focus-within {
+  border-color: var(--teal-primary) !important;
+  box-shadow: 0 0 0 2px rgba(7, 90, 85, 0.18) !important;
+}
+
+div[data-baseweb="input"] input,
+div[data-baseweb="base-input"] input,
+div[data-baseweb="textarea"] textarea {
+  color: var(--text-main) !important;
+  background-color: transparent !important;
+  font-size: 0.95rem !important;
+}
+
+div[data-baseweb="input"] input::placeholder,
+div[data-baseweb="base-input"] input::placeholder,
+div[data-baseweb="textarea"] textarea::placeholder {
+  color: var(--text-subtle) !important;
+}
+
+/* Select dropdown text & icons */
+div[data-baseweb="select"] * {
+  color: var(--text-main) !important;
+}
+
+/* Dropdown popover list */
+ul[role="listbox"] {
+  background-color: #ffffff !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+ul[role="listbox"] li {
+  color: var(--text-main) !important;
+}
+
+ul[role="listbox"] li:hover,
+ul[role="listbox"] li[aria-selected="true"] {
+  background-color: var(--teal-soft) !important;
+  color: var(--teal-primary) !important;
+}
+
+/* ==========================================================================
+   Tabs Styling (Fix invisible unselected tabs & red highlight)
+   ========================================================================== */
+div[data-baseweb="tab-list"] {
+  border-bottom: 2px solid var(--border-subtle) !important;
+  gap: 1.5rem !important;
+  margin-bottom: 1.25rem !important;
+  background-color: transparent !important;
+}
+
+button[data-baseweb="tab"] {
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0.65rem 0.25rem !important;
+}
+
+button[data-baseweb="tab"] p,
+button[data-baseweb="tab"] div,
+button[data-baseweb="tab"] span {
+  color: #53645f !important;
+  font-size: 1.02rem !important;
+  font-weight: 500 !important;
+  transition: color 0.15s ease !important;
+}
+
+button[data-baseweb="tab"]:hover p,
+button[data-baseweb="tab"]:hover div,
+button[data-baseweb="tab"]:hover span {
+  color: var(--teal-primary) !important;
+}
+
+button[data-baseweb="tab"][aria-selected="true"] p,
+button[data-baseweb="tab"][aria-selected="true"] div,
+button[data-baseweb="tab"][aria-selected="true"] span {
+  color: var(--teal-primary) !important;
+  font-weight: 700 !important;
+}
+
+div[data-baseweb="tab-highlight"] {
+  background-color: var(--teal-primary) !important;
+  height: 3px !important;
+  border-radius: 2px !important;
+}
+
+div[data-baseweb="tab-border"] {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Slider Component (Teal theme instead of default red)
+   ========================================================================== */
+div[data-testid="stSlider"] div[data-testid="stThumbValue"] {
+  color: var(--teal-primary) !important;
+  font-weight: 700 !important;
+}
+
+div[data-testid="stSlider"] [role="slider"] {
+  background-color: var(--teal-primary) !important;
+  border-color: var(--teal-primary) !important;
+}
+
+div[data-testid="stSlider"] div[data-baseweb="slider"] div[style*="rgb(255, 75, 75)"],
+div[data-testid="stSlider"] div[data-baseweb="slider"] div[style*="#ff4b4b"] {
+  background-color: var(--teal-primary) !important;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+button[kind="primary"],
+[data-testid="baseButton-primary"] {
+  background-color: var(--teal-primary) !important;
+  border: 1px solid var(--teal-primary) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: 0 2px 5px rgba(7, 90, 85, 0.18) !important;
+  transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+button[kind="primary"]:hover,
+[data-testid="baseButton-primary"]:hover {
+  background-color: var(--teal-hover) !important;
+  border-color: var(--teal-hover) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(7, 90, 85, 0.25) !important;
+}
+
+button[kind="secondary"],
+[data-testid="baseButton-secondary"] {
+  background-color: #ffffff !important;
+  border: 1px solid var(--border-input) !important;
+  color: var(--text-main) !important;
+  font-weight: 500 !important;
+  border-radius: var(--radius-sm) !important;
+  transition: all 0.15s ease !important;
+}
+
+button[kind="secondary"]:hover,
+[data-testid="baseButton-secondary"]:hover {
+  background-color: var(--bg-primary) !important;
+  border-color: var(--teal-primary) !important;
+  color: var(--teal-primary) !important;
+}
+
+/* ==========================================================================
+   Result Card Component
+   ========================================================================== */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 1.25rem 1.35rem;
+  margin: 0.85rem 0;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-card-hover);
+}
+
+.card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0.4rem 0 0.45rem 0;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+}
+
+.meta {
+  color: var(--text-muted);
+  font-size: 0.93rem;
+  line-height: 1.55;
+  margin-bottom: 0.5rem;
+}
+
+.card small {
+  color: var(--text-subtle);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.card a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+  color: var(--teal-primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  border-bottom: 1px dashed var(--teal-primary);
+  transition: color 0.15s ease, border-bottom-color 0.15s ease;
+}
+
+.card a:hover {
+  color: var(--teal-hover);
+  border-bottom-style: solid;
+}
+
+/* ==========================================================================
+   Badges & Price Tags
+   ========================================================================== */
+.badge {
+  display: inline-block;
+  background: var(--teal-soft);
+  color: var(--teal-primary);
+  border: 1px solid var(--teal-border);
+  border-radius: var(--radius-pill);
+  padding: 0.22rem 0.7rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-right: 0.35rem;
+  vertical-align: middle;
+}
+
+.price-high {
+  color: var(--price-high);
+  font-weight: 700;
+}
+
+.price-low {
+  color: var(--price-low);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Captions & Alerts
+   ========================================================================== */
+[data-testid="stCaptionContainer"] p,
+[data-testid="stCaptionContainer"] {
+  color: var(--text-muted) !important;
+  font-size: 0.9rem !important;
+}
+
+.stMarkdown, .stMarkdown p, .stMarkdown span {
+  color: var(--text-main);
+}
