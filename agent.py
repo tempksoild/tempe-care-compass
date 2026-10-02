@@ -16,6 +16,7 @@ import json, os, re, requests
 from pydantic import BaseModel, Field
 
 from rag import explain as rx
+from rag.validate import validate_explanation
 
 
 class CareIntent(BaseModel):
@@ -105,7 +106,7 @@ def _explain_ranking(call_llm, agent, question, intent, providers, empty_message
     agent.last_error = None
     if providers:
         try:
-            exp = rx.parse_explanation(call_llm(), providers)
+            exp = validate_explanation(rx.parse_explanation(call_llm(), providers), providers)
             agent.last_explain_source = "llm"
             return exp
         except Exception as e:  # LLM down, bad JSON, or ranking changed

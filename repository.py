@@ -21,6 +21,13 @@ class DemoRepository:
         df = pd.read_csv(Path(__file__).parent / "data/tempe_nppes_demo.csv", dtype=str).fillna("")
         return attach_source_ids(df.to_dict("records"), kind="provider")
 
+    def all_prices(self):
+        """Hospital price rows (CCN kept as text) for rag/prices.py."""
+        csv_path = Path(__file__).parent / "data/tempe_prices_demo.csv"
+        if not csv_path.exists():
+            return []
+        return pd.read_csv(csv_path, dtype=str).fillna("").to_dict("records")
+
     def search(self, category="All", zip_code="", query="", limit=50):
         df = pd.read_csv(Path(__file__).parent / "data/tempe_nppes_demo.csv", dtype=str).fillna("")
         if category != "All": df = df[df.category == category]
@@ -129,6 +136,15 @@ class SnowflakeRepository:
         """
         rows = [{k: ("" if v is None else str(v)) for k, v in r.items()} for r in self._query(sql)]
         return attach_source_ids(rows, kind="provider")
+
+    def all_prices(self):
+        """Hospital price rows for rag/prices.py."""
+        sql = """
+            SELECT ccn, billing_code, billing_code_type, billing_code_description,
+                   payer_name, setting, rate_type, rate_amount, snapshot_date
+            FROM CARE_AI.CURATED.HOSPITAL_PRICES
+        """
+        return [{k: ("" if v is None else str(v)) for k, v in r.items()} for r in self._query(sql)]
 
     def search_prices(self, procedure="", limit=20):
         sql = """

@@ -17,7 +17,7 @@ PROVIDERS_SQL = """
 """
 PRICES_SQL = """
     SELECT ccn, billing_code, billing_code_type, billing_code_description,
-           payer_name, rate_type, rate_amount, snapshot_date
+           payer_name, setting, rate_type, rate_amount, snapshot_date
     FROM CARE_AI.CURATED.HOSPITAL_PRICES
     ORDER BY billing_code_description, rate_amount
     LIMIT %s
