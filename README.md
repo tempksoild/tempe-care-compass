@@ -130,24 +130,50 @@ ollama serve
 The deterministic fallback works when both Ollama and Cortex are unavailable.
 
 ## Snowflake setup
-1. Install **Affine NPPES Provider Data** from Snowflake Marketplace.
-2. Install **Healthparse Hospital Price Transparency Rates** from Snowflake Marketplace.
-3. Run `sql/01_curate_providers.sql` in a Snowsight worksheet to create the CARE_AI database, dynamic table, views, and pricing pipeline.
-4. Make sure the Snowflake libraries are installed in your uv environment (included in step 2 above). To add them on their own:
-   ```bash
-   uv pip install "snowflake-connector-python[pandas]>=3.12,<4" "python-dotenv>=1.0,<2"
-   ```
-5. Fill in `.env` with your Snowflake credentials:
-   ```
-   SNOWFLAKE_ACCOUNT=<org>-<account>
-   SNOWFLAKE_USER=<user>
-   SNOWFLAKE_PASSWORD=<password>
-   ```
-6. Verify the connection (works on macOS and Windows):
-   ```bash
-   uv run python -c "import os, snowflake.connector as sf; from dotenv import load_dotenv; load_dotenv(); c=sf.connect(account=os.environ['SNOWFLAKE_ACCOUNT'], user=os.environ['SNOWFLAKE_USER'], password=os.environ['SNOWFLAKE_PASSWORD']); print(c.cursor().execute('select current_version()').fetchone())"
-   ```
-7. Run `uv run streamlit run app.py` and select **Snowflake** as data source and **Cortex** as AI backend in the sidebar.
+
+### 1. Get the Marketplace datasets
+Open the Snowflake UI and install the following free listings from the Marketplace (click **Get** on each):
+
+1. **Affine NPPES Provider Data** — [Marketplace listing](https://app.snowflake.com/marketplace/listing/GZT1Z2XIVUI/affine-health-intelligence-affine-nppes-provider-data)
+   - Go to the link above (or search "NPPES" in the Marketplace)
+   - Click **Get** to install the shared database `AFFINE_NPPES_PROVIDER_DATA` into your account
+   
+2. **Healthparse Hospital Price Transparency Rates** — [Marketplace listing](https://app.snowflake.com/marketplace/listing/GZT1Z4WB6KD)
+   - Search "Healthparse" in the Marketplace
+   - Click **Get** to install the shared database `HEALTHPARSE_HOSPITAL_PRICE_TRANSPARENCY_RATES`
+
+### 2. Run the database setup script
+Open a Snowsight worksheet (or any SQL client connected to your account) and execute the full contents of:
+
+```
+sql/01_curate_providers.sql
+```
+
+This creates the `CARE_AI` database and all required objects:
+- `CARE_AI.CURATED.TEMPE_PROVIDERS` — dynamic table joining NPPES provider, address, and taxonomy data
+- `CARE_AI.CURATED.HOSPITAL_PRICES` — view over Healthparse pricing data
+- `CARE_AI.CURATED.PRICE_COMPARISON` — aggregated price spreads per procedure
+- `CARE_AI.CURATED.TEMPE_CARE_OPTIONS` — providers joined with verified access programs
+- `CARE_AI.CURATED.VERIFIED_ACCESS_PROGRAMS` — table for manually verified sliding-fee/charity programs
+- `CARE_AI.CURATED.CHAT_MESSAGES` — chat history table (one message per row, JSON metadata via VARIANT column)
+
+### 3. Install Python dependencies
+Make sure the Snowflake libraries are installed in your uv environment (included in the demo setup above). To add them on their own:
+```bash
+uv pip install "snowflake-connector-python[pandas]>=3.12,<4" "python-dotenv>=1.0,<2"
+```
+
+### 6. Verify the connection
+Works on macOS and Windows:
+```bash
+uv run python -c "import os, snowflake.connector as sf; from dotenv import load_dotenv; load_dotenv(); c=sf.connect(account=os.environ['SNOWFLAKE_ACCOUNT'], user=os.environ['SNOWFLAKE_USER'], password=os.environ['SNOWFLAKE_PASSWORD']); print(c.cursor().execute('select current_version()').fetchone())"
+```
+
+### 7. Run the app
+```bash
+uv run streamlit run app.py
+```
+Select **Snowflake** as data source and **Cortex** as AI backend in the sidebar.
 
 ## Snowflake objects created
 | Object | Type | Description |
@@ -157,6 +183,7 @@ The deterministic fallback works when both Ollama and Cortex are unavailable.
 | `CARE_AI.CURATED.PRICE_COMPARISON` | View | Same-procedure price spread across hospitals |
 | `CARE_AI.CURATED.TEMPE_CARE_OPTIONS` | View | Providers joined with verified access programs |
 | `CARE_AI.CURATED.VERIFIED_ACCESS_PROGRAMS` | Table | Manually verified sliding-fee/charity programs |
+| `CARE_AI.CURATED.CHAT_MESSAGES` | Table | Chat history — one message per row with JSON metadata |
 
 ## Important design choices
 - **NPPES cannot establish affordability.** The app never labels a provider as free without verification from `VERIFIED_ACCESS_PROGRAMS`.
